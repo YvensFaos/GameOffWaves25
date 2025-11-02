@@ -10,9 +10,8 @@ namespace Grid
         [SerializeField] private List<GridUnit> gridUnits;
         [SerializeField] private TilemapInfo tilemapInfo;
         private GridUnit[,] _grid;
-        
-        [Header("Visuals")]
-        [SerializeField] private List<GridWalkingVisual> visuals;
+
+        [Header("Visuals")] [SerializeField] private List<GridWalkingVisual> visuals;
 
         protected override void Awake()
         {
@@ -50,7 +49,7 @@ namespace Grid
             CheckGridPosition(new Vector2Int(gridX, gridY), out var gridUnit);
             return gridUnit;
         }
-        
+
         private static Vector2Int GetUnitPosition(GridUnit unit, Vector2Int dimensions, Bounds tileBounds)
         {
             var cellWidth = tileBounds.size.x / dimensions.x;
@@ -68,19 +67,50 @@ namespace Grid
 
         public bool CheckGridPosition(Vector2Int position, out GridUnit unit)
         {
-            if (position.x < 0 || position.x > _grid.GetLength(0) || position.y < 0 || position.y > _grid.GetLength(1))
+            var checkValidPosition = GetValidGridPosition(position, out var validPosition);
+            unit = _grid[validPosition.x, validPosition.y];
+            return checkValidPosition;
+        }
+
+        private bool GetValidGridPosition(Vector2Int position, out Vector2Int validPosition)
+        {
+            validPosition = position;
+            if (CheckPosition(position)) return true;
+            validPosition.x = position.x < 0 ? 0 :
+                position.x > _grid.GetLength(0) ? _grid.GetLength(0) - 1 : position.x;
+            validPosition.y = position.y < 0 ? 0 :
+                position.y > _grid.GetLength(0) ? _grid.GetLength(0) - 1 : position.y;
+            return false;
+        }
+
+        private bool CheckPosition(Vector2Int position)
+        {
+            return position.x >= 0 && position.x <= _grid.GetLength(0) && position.y >= 0 &&
+                   position.y <= _grid.GetLength(1);
+        }
+
+        public List<GridUnit> GetGridUnitsInRadius(Vector2Int position, int radius)
+        {
+            var inRadius = new List<GridUnit>();
+            GetValidGridPosition(position, out var validPosition);
+            for (var i = position.x - radius; i <= position.x + radius; i++)
             {
-                var validPosition = Vector2Int.zero;
-                validPosition.x = position.x < 0 ? 0 :
-                    position.x > _grid.GetLength(0) ? _grid.GetLength(0) - 1 : position.x;
-                validPosition.y = position.y < 0 ? 0 :
-                    position.y > _grid.GetLength(0) ? _grid.GetLength(0) - 1 : position.y;
-                unit = _grid[validPosition.x, validPosition.y];
-                return false;
+                for (var j = position.y - radius; j <= position.y + radius; j++)
+                {
+                    if (!CheckPosition(new Vector2Int(i, j)))
+                        continue;
+            
+                    var dx = i - position.x;
+                    var dy = j - position.y;
+                    var distance = Mathf.Sqrt(dx * dx + dy * dy);
+                    if (distance <= radius)
+                    {
+                        inRadius.Add(_grid[i, j]);
+                    }
+                }
             }
 
-            unit = _grid[position.x, position.y];
-            return true;
+            return inRadius;
         }
 
         public Sprite GetSpriteForType(GridUnitType type)

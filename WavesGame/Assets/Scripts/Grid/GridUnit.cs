@@ -26,13 +26,13 @@ namespace Grid
             GridManager.GetSingleton().AddGridUnit(this);
         }
 
-        private void DisplayWalkingVisuals()
+        public void DisplayWalkingVisuals()
         {
             spriteRenderer.gameObject.SetActive(true);
             spriteRenderer.sprite = GridManager.GetSingleton().GetSpriteForType(currentType);
         }
 
-        private void HideWalkingVisuals()
+        public void HideWalkingVisuals()
         {
             spriteRenderer.gameObject.SetActive(false);
         }
@@ -76,11 +76,11 @@ namespace Grid
         {
             var enumerator = _actors.GetEnumerator();
             enumerator.MoveNext();
-            return GetActorEnumerator().Current;
+            return enumerator.Current;
         }
 
         public GridUnitType Type() => currentType;
-        public void SetIndex(Vector2Int newIndex) => this.index = newIndex;
+        public void SetIndex(Vector2Int newIndex) => index = newIndex;
         public Vector2Int Index() => index;
         public bool HasValidActors() => _actors != null;
         public int ActorsCount() => _actors.Count;

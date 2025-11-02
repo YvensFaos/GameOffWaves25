@@ -5,7 +5,7 @@ namespace Actors
 {
     public class NavalActor : GridActor
     {
-        [SerializeField] private NavalActorType type;
-        public NavalActorType Type => type;
+        [SerializeField] private NavalActorType navalType;
+        public NavalActorType NavalType => navalType;
     }
 }

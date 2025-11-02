@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UUtils.Editor;
 
 namespace Core.Editor
 {
@@ -14,11 +15,11 @@ namespace Core.Editor
             [CursorState.ShowingOptions] = new Color(0.2f, 0.4f, 1f),
             [CursorState.Targeting] = Color.red
         };
-        
+
         public override void OnInspectorGUI()
         {
-            var myTarget = (CursorController) target;
-            var currentState = myTarget.GetState();
+            var cursorController = (CursorController)target;
+            var currentState = cursorController.GetState();
             var coloredStyle = new GUIStyle(GUI.skin.label)
             {
                 normal =
@@ -27,6 +28,10 @@ namespace Core.Editor
                 }
             };
             GUILayout.Label($"Current State: {currentState.ToString()}", coloredStyle);
+            GUILayout.BeginHorizontal();
+            EditorDrawerHelper.DrawActiveBox("Is Active?", cursorController.IsActive());
+            GUILayout.EndHorizontal();
+
             base.OnInspectorGUI();
         }
     }

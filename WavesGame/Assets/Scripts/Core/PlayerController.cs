@@ -11,6 +11,7 @@ namespace Core
 
         public Action<Vector2> onMoveAction;
         public Action onInteract;
+        public Action onCancel;
 
         public void OnMove(InputAction.CallbackContext context)
         {
@@ -20,13 +21,21 @@ namespace Core
 
         public void OnInteract(InputAction.CallbackContext context)
         {
-            onInteract?.Invoke();
+            if (context.performed)
+            {
+                onInteract?.Invoke();    
+            }
         }
         
         public void OnNavigate(InputAction.CallbackContext context)
         {
             // var readValue = context.ReadValue<Vector2>();
             // onMoveAction?.Invoke(readValue);
+        }
+
+        public void OnCancel(InputAction.CallbackContext context)
+        {
+            onCancel?.Invoke();
         }
     }
 }

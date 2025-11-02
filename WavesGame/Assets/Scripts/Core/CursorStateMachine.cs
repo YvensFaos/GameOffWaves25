@@ -1,6 +1,7 @@
 using System;
 using Actors;
 using Grid;
+using UUtils;
 
 namespace Core
 {
@@ -43,15 +44,20 @@ namespace Core
             }
         }
 
+        public void ResetToRoaming()
+        {
+            ChangeStateTo(CursorState.Roaming);
+        }
+
         private void ChangeStateTo(CursorState newState)
         {
+            DebugUtils.DebugLogMsg($"Change state from {_currentState} to {newState}");
             switch (_currentState)
             {
                 case CursorState.Roaming:
-                    _cursorController.ToggleMoving(false);
+                    _cursorController.ToggleActive(false);
                     break;
                 case CursorState.SelectGridUnit:
-
                     break;
                 case CursorState.ShowingOptions:
                     break;
@@ -62,11 +68,12 @@ namespace Core
             }
 
             _currentState = newState;
+            DebugUtils.DebugLogMsg($"Stated changed to {_currentState}");
+            
             switch (_currentState)
             {
                 case CursorState.Roaming:
-                    // Allow moving when on roaming state
-                    _cursorController.ToggleMoving(true);
+                    _cursorController.ToggleActive(true);
                     break;
                 case CursorState.SelectGridUnit:
                     if (_currentGridUnit.ActorsCount() > 0)
@@ -74,8 +81,8 @@ namespace Core
                         var getTopActor = _currentGridUnit.GetActor();
                         if (getTopActor is NavalActor navalActor)
                         {
-                            _cursorController.SetSelectedActor(navalActor);
                             _currentState = CursorState.ShowingOptions;
+                            _cursorController.SetSelectedActor(navalActor);
                         }
                         else
                         {
