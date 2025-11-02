@@ -48,5 +48,22 @@ namespace Grid
         {
             gridUnits.Add(unit);
         }
+
+        public bool CheckGridPosition(Vector2Int position, out GridUnit unit)
+        {
+            if (position.x < 0 || position.x > _grid.GetLength(0) || position.y < 0 || position.y > _grid.GetLength(1))
+            {
+                var validPosition = Vector2Int.zero;
+                validPosition.x = position.x < 0 ? 0 :
+                    position.x > _grid.GetLength(0) ? _grid.GetLength(0) - 1 : position.x;
+                validPosition.y = position.y < 0 ? 0 :
+                    position.y > _grid.GetLength(0) ? _grid.GetLength(0) - 1 : position.y;
+                unit = _grid[validPosition.x, validPosition.y];
+                return false;
+            }
+
+            unit = _grid[position.x, position.y];
+            return true;
+        }
     }
 }
