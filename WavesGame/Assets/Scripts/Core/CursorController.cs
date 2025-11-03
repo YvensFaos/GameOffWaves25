@@ -143,8 +143,7 @@ namespace Core
         {
             if (gridUnit.Type() != GridUnitType.Blocked && _walkableUnits.Contains(gridUnit))
             {
-                _selectedActor.MoveTo(gridUnit, () => { _stateMachine.ChangeStateTo(CursorState.ShowingOptions); },
-                    true, 1.0f);
+                _selectedActor.MoveTo(gridUnit, () => { _stateMachine.ChangeStateTo(CursorState.ShowingOptions); }, true, 0.15f);
                 return true;
             }
 

@@ -96,27 +96,30 @@ namespace Grid
             var inRadius = new List<GridUnit>();
             GetValidGridPosition(position, out var validPosition);
             var startUnit = _grid[validPosition.x, validPosition.y];
-            
+
             // ReSharper disable once UseObjectOrCollectionInitializer
             var toVisit = new List<Tuple<GridUnit, int>>();
             var visited = new HashSet<GridUnit>();
             toVisit.Add(new Tuple<GridUnit, int>(startUnit, radius));
-            DebugUtils.DebugLogMsg($"Start from first node {startUnit} [{visited.Count}].", DebugUtils.DebugType.Temporary);
+            DebugUtils.DebugLogMsg($"Start from first node {startUnit.Index()} [{visited.Count}].",
+                DebugUtils.DebugType.Temporary);
             while (toVisit.Count > 0)
             {
                 var unitTuple = toVisit[0];
-                
+
                 // Stop searching if the unit has been visited already
                 var gridUnit = unitTuple.Item1;
                 // ReSharper disable once CanSimplifySetAddingWithSingleCall
                 if (visited.Contains(gridUnit))
                 {
-                    toVisit.RemoveAt(0);    
+                    toVisit.RemoveAt(0);
                     continue;
                 }
+
                 visited.Add(gridUnit);
-                DebugUtils.DebugLogMsg($"Check node - {gridUnit} {gridUnit.Index()} [{visited.Count}].", DebugUtils.DebugType.Temporary);
-                
+                DebugUtils.DebugLogMsg($"Check node - {gridUnit.Index()} [{visited.Count}].",
+                    DebugUtils.DebugType.Temporary);
+
                 var index = gridUnit.Index();
                 var currentRadius = unitTuple.Item2;
                 toVisit.RemoveAt(0);
@@ -125,27 +128,31 @@ namespace Grid
                 if (currentRadius < 0) continue;
 
                 var firstUnit = gridUnit == startUnit;
-                
+
                 // Skip this tuple if it is blocked and it is not the current/initial unit
                 if (!firstUnit && gridUnit.Type() == GridUnitType.Blocked) continue;
-                inRadius.Add(gridUnit);    
-                
-                DebugUtils.DebugLogMsg($"Visiting next nodes from {gridUnit} {gridUnit.Index()} [{visited.Count}].", DebugUtils.DebugType.Temporary);
+                inRadius.Add(gridUnit);
+
+                DebugUtils.DebugLogMsg($"Visiting next nodes from {gridUnit.Index()} [{visited.Count}].",
+                    DebugUtils.DebugType.Temporary);
                 var newRadius = currentRadius - 1;
                 VisitNextNodeAt(new Vector2Int(index.x, index.y + 1), newRadius);
                 VisitNextNodeAt(new Vector2Int(index.x, index.y - 1), newRadius);
                 VisitNextNodeAt(new Vector2Int(index.x + 1, index.y), newRadius);
                 VisitNextNodeAt(new Vector2Int(index.x - 1, index.y), newRadius);
             }
-            
+
             return inRadius;
 
             void VisitNextNodeAt(Vector2Int index, int currentRadius)
             {
-                if (CheckPosition(index)) { toVisit.Add(new Tuple<GridUnit, int>(_grid[index.x, index.y], currentRadius)); }
+                if (CheckPosition(index))
+                {
+                    toVisit.Add(new Tuple<GridUnit, int>(_grid[index.x, index.y], currentRadius));
+                }
             }
         }
-        
+
         public List<GridUnit> GetGridUnitsInRadius(Vector2Int position, int radius)
         {
             var inRadius = new List<GridUnit>();
@@ -173,9 +180,58 @@ namespace Grid
             return inRadius;
         }
 
-        public List<GridUnit> GetManhattanPathFromTo(Vector2Int from, Vector2Int to, bool checkBlocked = false)
+        public List<GridUnit> GetManhattanPathFromTo(Vector2Int from, Vector2Int to, int maxSteps,
+            bool checkBlocked = false)
         {
-            return new List<GridUnit>();
+            //TODO consider a recursive function instead
+            var pathFromTo = new List<GridUnit>();
+            DebugUtils.DebugLogMsg($"Start Path from [{from}] to [{to}] Manhattan.", DebugUtils.DebugType.Temporary);
+            GetValidGridPosition(from, out var validPosition);
+
+            var steps = maxSteps;
+            var current = validPosition;
+            while (steps >= 0)
+            {
+                DebugUtils.DebugLogMsg($"Current step [{current}] [Step: {steps}].");
+                var currentUnit = _grid[current.x, current.y];
+                pathFromTo.Add(currentUnit);
+                if (currentUnit.Index() == to)
+                {
+                    break;
+                }
+
+                var possibleMoveOnX =
+                    (current.x != to.x) ? (to.x > current.x ? current.x + 1 : current.x - 1) : current.x;
+                var isValidX = GetValidGridPosition(new Vector2Int(possibleMoveOnX, current.y), out validPosition)
+                               && validPosition != currentUnit.Index()
+                               && (!checkBlocked || _grid[validPosition.x, validPosition.y].Type() !=
+                                   GridUnitType.Blocked);
+                if (isValidX)
+                {
+                    current.x = possibleMoveOnX;
+                    --steps;
+                    continue;
+                }
+
+                var possibleMoveOnY =
+                    (current.y != to.y) ? (to.y > current.y ? current.y + 1 : current.y - 1) : current.y;
+                var isValidY = GetValidGridPosition(new Vector2Int(current.x, possibleMoveOnY), out validPosition)
+                               && validPosition != currentUnit.Index()
+                               && (!checkBlocked || _grid[validPosition.x, validPosition.y].Type() !=
+                                   GridUnitType.Blocked);
+                if (isValidY)
+                {
+                    current.y = possibleMoveOnY;
+                    --steps;
+                    continue;
+                }
+
+                DebugUtils.DebugLogMsg($"Could not find path from {from} to {to} [currently at {current}].",
+                    DebugUtils.DebugType.Error);
+                break;
+            }
+
+            return pathFromTo;
         }
 
         public Sprite GetSpriteForType(GridUnitType type)

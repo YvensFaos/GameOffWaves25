@@ -12,21 +12,30 @@ namespace Grid
 
         public virtual void MoveTo(GridUnit unit, Action onFinishMoving, bool animate = false, float time = 0.5f)
         {
-            if (currentUnit != null)
-            {
-                currentUnit.RemoveActor(this);
-            }
-            unit.AddActor(this);
+            UpdateUnitOnMovement(unit);
 
             if (animate)
             {
-                transform.DOMove(unit.transform.position, time).OnComplete(() => { onFinishMoving?.Invoke(); });
+                transform.DOMove(unit.transform.position, time).OnComplete(() =>
+                {
+                    onFinishMoving?.Invoke();
+                });
             }
             else
             {
                 transform.position = unit.transform.position;
                 onFinishMoving?.Invoke();
             }
+        }
+
+        protected void UpdateUnitOnMovement(GridUnit unit)
+        {
+            if (currentUnit != null)
+            {
+                currentUnit.RemoveActor(this);
+            }
+            //Adding the actor to the unit also updates the actor's current unit
+            unit.AddActor(this);
         }
 
         public bool BlockGridUnit => blockGridUnit;
