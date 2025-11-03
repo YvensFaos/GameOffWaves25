@@ -65,7 +65,7 @@ namespace Core
                 return;
             }
 
-            _stateMachine.UpdateState(gridUnit);
+            _stateMachine.InteractOnUnit(gridUnit);
         }
 
         private void Move(Vector2 direction)
@@ -82,7 +82,7 @@ namespace Core
             var validPosition = GridManager.GetSingleton().CheckGridPosition(newIndex, out var gridUnit);
             if (!validPosition) InvalidPosition();
             _movingAnimation = true;
-            transform.DOMove(gridUnit.transform.position, 0.2f).OnComplete(() =>
+            transform.DOMove(gridUnit.transform.position, 0.1f).OnComplete(() =>
             {
                 _movingAnimation = false;
                 index = gridUnit.Index();

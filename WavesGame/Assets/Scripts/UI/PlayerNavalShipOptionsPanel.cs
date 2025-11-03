@@ -1,6 +1,7 @@
 using Core;
 using DG.Tweening;
-using Unity.VisualScripting;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,6 +15,9 @@ namespace UI
         [SerializeField] private RectTransform selfRectTransform;
         [SerializeField] private Button initialButton;
 
+        private TweenerCore<Vector3, Vector3, VectorOptions> _showUpTween;
+        private bool _introAnimation;
+        
         private void Awake()
         {
             AssessUtils.CheckRequirement(ref cursorController, this);
@@ -23,16 +27,20 @@ namespace UI
         private void OnEnable()
         {
             selfRectTransform.localScale = Vector3.zero;
-            selfRectTransform.DOScale(Vector3.one, 0.3f).OnComplete(() =>
+            EventSystem.current.SetSelectedGameObject(initialButton.gameObject);
+            _introAnimation = true;
+            _showUpTween = selfRectTransform.DOScale(Vector3.one, 0.3f).OnComplete(() =>
             {
-                EventSystem.current.SetSelectedGameObject(initialButton.gameObject);
                 PlayerController.GetSingleton().onCancel += Cancel;
+                _introAnimation = false;
             });
         }
 
         private void OnDisable()
         {
+            _showUpTween?.Kill();
             PlayerController.GetSingleton().onCancel -= Cancel;
+            // EventSystem.current.SetSelectedGameObject(null); TODO - check if necessary again in the future
         }
 
         public void Move()
@@ -49,6 +57,8 @@ namespace UI
 
         public void Cancel()
         {
+            if (!gameObject.activeInHierarchy) return;
+            if (_introAnimation) return;
             cursorController.CancelSelectedActor();
         }
     }

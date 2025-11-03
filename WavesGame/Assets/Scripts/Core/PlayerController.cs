@@ -21,10 +21,10 @@ namespace Core
 
         public void OnInteract(InputAction.CallbackContext context)
         {
-            if (context.performed)
-            {
-                onInteract?.Invoke();    
-            }
+            DebugUtils.DebugLogMsg($"On Interact called. S[{context.started}] P[{context.performed}] C[{context.canceled}]");
+            if (!context.performed) return;
+            DebugUtils.DebugLogMsg(">> Interact! << ");
+            onInteract?.Invoke();
         }
         
         public void OnNavigate(InputAction.CallbackContext context)
@@ -35,6 +35,7 @@ namespace Core
 
         public void OnCancel(InputAction.CallbackContext context)
         {
+            if (!context.performed) return;
             onCancel?.Invoke();
         }
     }

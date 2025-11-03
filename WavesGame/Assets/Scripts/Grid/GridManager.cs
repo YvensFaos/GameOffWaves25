@@ -9,9 +9,10 @@ namespace Grid
     {
         [SerializeField] private List<GridUnit> gridUnits;
         [SerializeField] private TilemapInfo tilemapInfo;
-        private GridUnit[,] _grid;
 
         [Header("Visuals")] [SerializeField] private List<GridWalkingVisual> visuals;
+
+        private GridUnit[,] _grid;
 
         protected override void Awake()
         {
@@ -93,15 +94,18 @@ namespace Grid
         {
             var inRadius = new List<GridUnit>();
             GetValidGridPosition(position, out var validPosition);
-            for (var i = position.x - radius; i <= position.x + radius; i++)
+            var worldPosition = _grid[validPosition.x, validPosition.y].transform.position;
+            DebugUtils.DebugArea(worldPosition, radius);
+            DebugUtils.DebugCircle(worldPosition, Color.white, radius);
+            for (var i = validPosition.x - radius; i <= validPosition.x + radius; i++)
             {
-                for (var j = position.y - radius; j <= position.y + radius; j++)
+                for (var j = validPosition.y - radius; j <= validPosition.y + radius; j++)
                 {
                     if (!CheckPosition(new Vector2Int(i, j)))
                         continue;
-            
-                    var dx = i - position.x;
-                    var dy = j - position.y;
+
+                    var dx = i - validPosition.x;
+                    var dy = j - validPosition.y;
                     var distance = Mathf.Sqrt(dx * dx + dy * dy);
                     if (distance <= radius)
                     {
