@@ -21,9 +21,8 @@ namespace Core
 
         public void OnInteract(InputAction.CallbackContext context)
         {
-            DebugUtils.DebugLogMsg($"On Interact called. S[{context.started}] P[{context.performed}] C[{context.canceled}]");
+            DebugUtils.DebugLogMsg($"On Interact called. S[{context.started}] P[{context.performed}] C[{context.canceled}]", DebugUtils.DebugType.Verbose);
             if (!context.performed) return;
-            DebugUtils.DebugLogMsg(">> Interact! << ");
             onInteract?.Invoke();
         }
         
@@ -35,6 +34,7 @@ namespace Core
 
         public void OnCancel(InputAction.CallbackContext context)
         {
+            DebugUtils.DebugLogMsg($"On Cancel called. S[{context.started}] P[{context.performed}] C[{context.canceled}]", DebugUtils.DebugType.Verbose);
             if (!context.performed) return;
             onCancel?.Invoke();
         }

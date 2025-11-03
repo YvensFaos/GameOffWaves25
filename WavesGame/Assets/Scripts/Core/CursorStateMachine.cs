@@ -51,7 +51,7 @@ namespace Core
 
         private void ChangeStateTo(CursorState newState)
         {
-            DebugUtils.DebugLogMsg($"Change state from {_currentState} to {newState}.");
+            DebugUtils.DebugLogMsg($"Change state from {_currentState} to {newState}.", DebugUtils.DebugType.System);
             switch (_currentState)
             {
                 case CursorState.Roaming:
@@ -68,7 +68,7 @@ namespace Core
             }
 
             _currentState = newState;
-            DebugUtils.DebugLogMsg($"Stated changed to {_currentState}.");
+            DebugUtils.DebugLogMsg($"Stated changed to {_currentState}.", DebugUtils.DebugType.System);
             
             switch (_currentState)
             {
@@ -76,13 +76,13 @@ namespace Core
                     _cursorController.ToggleActive(true);
                     break;
                 case CursorState.SelectGridUnit:
-                    DebugUtils.DebugLogMsg($"Selecting grid unit {_currentGridUnit} | Contains {_currentGridUnit.ActorsCount()} actors.");
+                    DebugUtils.DebugLogMsg($"Selecting grid unit {_currentGridUnit} | Contains {_currentGridUnit.ActorsCount()} actors.", DebugUtils.DebugType.Verbose);
                     if (_currentGridUnit.ActorsCount() > 0)
                     {
                         var getTopActor = _currentGridUnit.GetActor();
                         if (getTopActor is NavalActor navalActor)
                         {
-                            DebugUtils.DebugLogMsg($"Got top actor as a Naval Actor {navalActor.name} {navalActor}.");
+                            DebugUtils.DebugLogMsg($"Got top actor as a Naval Actor {navalActor.name} {navalActor}.", DebugUtils.DebugType.Verbose);
                             _cursorController.SetSelectedActor(navalActor);
                             // ReSharper disable once TailRecursiveCall
                             ChangeStateTo(CursorState.ShowingOptions);
@@ -94,7 +94,7 @@ namespace Core
                     }
                     else
                     {
-                        DebugUtils.DebugLogMsg($"No actors found in grid unit {_currentGridUnit}.");
+                        DebugUtils.DebugLogMsg($"No actors found in grid unit {_currentGridUnit}.", DebugUtils.DebugType.Verbose);
                         // ReSharper disable once TailRecursiveCall
                         ChangeStateTo(CursorState.Roaming);
                         // If select a grid unit with no actor, then just return back to roaming
