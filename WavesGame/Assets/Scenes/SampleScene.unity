@@ -10398,7 +10398,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 373687424}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3cf54e8e03c744b79ef33f38d5a2406, type: 3}
+  m_Script: {fileID: 11500000, guid: 2dfa33882544f4ec4a03ca60dc4f4017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UUtils.TilemapInfo
   tileMapRenderer: {fileID: 373687426}
@@ -10665,7 +10665,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5.140625
+  orthographic size: 4.21875
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -11052,7 +11052,7 @@ PrefabInstance:
     - target: {fileID: 3709673638329129021, guid: 61f5a66b8b7f549b38791aa24a9114b1, type: 3}
       propertyPath: tilemapInfo
       value: 
-      objectReference: {fileID: 373687428}
+      objectReference: {fileID: 0}
     - target: {fileID: 4333277359057602615, guid: 61f5a66b8b7f549b38791aa24a9114b1, type: 3}
       propertyPath: m_Name
       value: LevelManagers
