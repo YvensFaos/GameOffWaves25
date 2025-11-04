@@ -24,8 +24,14 @@ namespace Actors
             if (animate)
             {
                 var steps = GridManager.GetSingleton()
-                    .GetManhattanPathFromTo(GetUnit().Index(), unit.Index(), shipData.movementStepsPerTurn, true);
-                if (steps.Count <= 0) return;
+                    .GetManhattanPathFromToRecursive(GetUnit().Index(), unit.Index(), shipData.movementStepsPerTurn, true);
+
+                if (steps.Count <= 0)
+                {
+                    onFinishMoving?.Invoke();
+                    return;
+                }
+                
                 var movementSequence = DOTween.Sequence();
                 steps.ForEach(step =>
                 {
