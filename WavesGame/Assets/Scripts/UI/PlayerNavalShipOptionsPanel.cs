@@ -40,18 +40,20 @@ namespace UI
         {
             _showUpTween?.Kill();
             PlayerController.GetSingleton().onCancel -= Cancel;
-            // EventSystem.current.SetSelectedGameObject(null); TODO - check if necessary again in the future
+            // TODO - check if necessary again in the future 
+            // EventSystem.current.SetSelectedGameObject(null); 
         }
 
         public void Move()
         {
-            if (!gameObject.activeInHierarchy) return;
-            if (_introAnimation) return;
+            if (!CheckValidState()) return;
             cursorController.CommandToMoveSelectedActor();
         }
 
         public void Attack()
         {
+            if (!CheckValidState()) return;
+            cursorController.CommandToDisplayAttackArea();
         }
 
         public void Info()
@@ -60,9 +62,15 @@ namespace UI
 
         public void Cancel()
         {
-            if (!gameObject.activeInHierarchy) return;
-            if (_introAnimation) return;
+            if (!CheckValidState()) return;
             cursorController.CancelSelectedActor();
+        }
+
+        private bool CheckValidState()
+        {
+            if (!gameObject.activeInHierarchy) return false;
+            if (_introAnimation) return false;
+            return true;
         }
     }
 }

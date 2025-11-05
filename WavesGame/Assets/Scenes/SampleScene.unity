@@ -7145,8 +7145,8 @@ Tilemap:
   - first: {x: 0, y: 3, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 0
-      m_TileSpriteIndex: 0
+      m_TileIndex: 1
+      m_TileSpriteIndex: 1
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 0
@@ -10254,9 +10254,9 @@ Tilemap:
       m_AllTileFlags: 1
   m_AnimatedTiles: {}
   m_TileAssetArray:
-  - m_RefCount: 15
+  - m_RefCount: 14
     m_Data: {fileID: 11400000, guid: 46251ca82f0204f5fad1e2b00972b49f, type: 2}
-  - m_RefCount: 896
+  - m_RefCount: 897
     m_Data: {fileID: 11400000, guid: b3cfe3449334c4d9c99dc0e8b319d4a5, type: 2}
   - m_RefCount: 4
     m_Data: {fileID: 11400000, guid: 83542a1a6481f430a81b750aad7f6501, type: 2}
@@ -10297,9 +10297,9 @@ Tilemap:
   - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: 55d31debecab54ab58080d8ed10947e3, type: 2}
   m_TileSpriteArray:
-  - m_RefCount: 15
+  - m_RefCount: 14
     m_Data: {fileID: -1081269119, guid: 4ef3484ce0ae444bcbf478a94f241341, type: 3}
-  - m_RefCount: 896
+  - m_RefCount: 897
     m_Data: {fileID: -2926488368691022172, guid: 4ef3484ce0ae444bcbf478a94f241341, type: 3}
   - m_RefCount: 4
     m_Data: {fileID: 1054116548, guid: 4ef3484ce0ae444bcbf478a94f241341, type: 3}
@@ -10665,7 +10665,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 4.21875
+  orthographic size: 2.1015625
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -10871,10 +10871,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f6704d0dd4245dba1df34ae88315205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Actors.NavalTarget
+  maxHealth: 0
   currentUnit: {fileID: 0}
   blockGridUnit: 1
   navalType: 2
-  targetHealth: 2
 --- !u!4 &1134963409
 Transform:
   m_ObjectHideFlags: 0

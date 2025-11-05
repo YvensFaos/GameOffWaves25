@@ -17,19 +17,18 @@ namespace Core
 
     public class CursorStateMachine
     {
-        private CursorController _cursorController;
-        private CursorState _currentState;
+        private readonly CursorController _cursorController;
         private GridUnit _currentGridUnit;
 
         public CursorStateMachine(CursorController cursorController)
         {
             _cursorController = cursorController;
-            _currentState = CursorState.Roaming;
+            CurrentState = CursorState.Roaming;
         }
 
         public void InteractOnUnit(GridUnit unit)
         {
-            switch (_currentState)
+            switch (CurrentState)
             {
                 case CursorState.Roaming:
                     _currentGridUnit = unit;
@@ -40,9 +39,14 @@ namespace Core
                 case CursorState.ShowingOptions:
                     break;
                 case CursorState.Targeting:
+                    //TODO when the ship fires at a target position
+                    if (_cursorController.TargetSelectedGridUnit(unit))
+                    {
+                        ChangeStateTo(CursorState.Roaming);
+                    }
                     break;
                 case CursorState.Moving:
-                    if (_cursorController.MoveTo(unit))
+                    if (_cursorController.MoveSelectedActorTo(unit))
                     {
                         ChangeStateTo(CursorState.OnTheMove);    
                     }
@@ -56,8 +60,8 @@ namespace Core
 
         public void ChangeStateTo(CursorState newState)
         {
-            DebugUtils.DebugLogMsg($"Change state from {_currentState} to {newState}.", DebugUtils.DebugType.System);
-            switch (_currentState)
+            DebugUtils.DebugLogMsg($"Change state from {CurrentState} to {newState}.", DebugUtils.DebugType.System);
+            switch (CurrentState)
             {
                 case CursorState.Roaming:
                     _cursorController.ToggleActive(false);
@@ -78,10 +82,10 @@ namespace Core
                     throw new ArgumentOutOfRangeException();
             }
 
-            _currentState = newState;
-            DebugUtils.DebugLogMsg($"Stated changed to {_currentState}.", DebugUtils.DebugType.System);
+            CurrentState = newState;
+            DebugUtils.DebugLogMsg($"Stated changed to {CurrentState}.", DebugUtils.DebugType.System);
             
-            switch (_currentState)
+            switch (CurrentState)
             {
                 case CursorState.Roaming:
                     _cursorController.ToggleActive(true);
@@ -117,6 +121,7 @@ namespace Core
                     _cursorController.ShowOptionsForSelectedActor();
                     break;
                 case CursorState.Targeting:
+                    _cursorController.ToggleActive(true);
                     break;
                 case CursorState.Moving:
                     _cursorController.ToggleActive(true);
@@ -128,6 +133,6 @@ namespace Core
             }
         }
 
-        public CursorState CurrentState => _currentState;
+        public CursorState CurrentState { get; private set; }
     }
 }

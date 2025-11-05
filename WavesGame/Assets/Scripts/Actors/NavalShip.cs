@@ -1,4 +1,5 @@
 using System;
+using Actors.Cannon;
 using DG.Tweening;
 using Grid;
 using UnityEngine;
@@ -9,6 +10,7 @@ namespace Actors
     public class NavalShip : NavalActor
     {
         [SerializeField] private NavalShipSo shipData;
+        [SerializeField] private BaseCannon navalCannon;
 
         public override void MoveTo(GridUnit unit, Action onFinishMoving, bool animate = false, float time = 0.5f)
         {
@@ -46,5 +48,6 @@ namespace Actors
         }
 
         public NavalShipSo ShipData => shipData;
+        public BaseCannon NavalCannon => navalCannon;
     }
 }

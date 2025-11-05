@@ -100,6 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1683268027249446823}
   - component: {fileID: 8660910831640428757}
+  - component: {fileID: 5520116451851239357}
   m_Layer: 6
   m_Name: SimpleBoat
   m_TagString: Untagged
@@ -135,8 +136,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28a27e67eaa084b17be7ae3d2c854f13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Actors.NavalShip
+  maxHealth: 0
   currentUnit: {fileID: 0}
   blockGridUnit: 1
   navalType: 1
-  currentGridUnit: {fileID: 0}
   shipData: {fileID: 11400000, guid: d3b3df1f633c94cfab3dad91ee6107a7, type: 2}
+  navalCannon: {fileID: 5520116451851239357}
+--- !u!114 &5520116451851239357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9116787501436768038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 265f60b0d2eb94dcf8b5cbdcea0461af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Actors.Cannon.BaseCannon
+  cannonData: {fileID: 11400000, guid: 575b58f23cc794f169332aa9bcc14fdc, type: 2}

@@ -29,7 +29,7 @@ namespace Core
         private bool _active = true;
 
         private static readonly int Select = Animator.StringToHash("Select");
-        
+
         private void Awake()
         {
             AssessUtils.CheckRequirement(ref cursorAnimator, this);
@@ -114,7 +114,8 @@ namespace Core
                     {
                         var data = navalShip.ShipData;
                         ResetWalkableUnits();
-                        _walkableUnits = GridManager.GetSingleton().GetGridUnitsInRadiusManhattan(index, data.movementRadius);
+                        _walkableUnits = GridManager.GetSingleton()
+                            .GetGridUnitsInRadiusManhattan(index, data.movementRadius);
                         _walkableUnits.ForEach(unit => { unit.DisplayWalkingVisuals(); });
                     }
 
@@ -139,11 +140,32 @@ namespace Core
             _stateMachine.ChangeStateTo(CursorState.Moving);
         }
 
-        public bool MoveTo(GridUnit gridUnit)
+        public void CommandToDisplayAttackArea()
+        {
+            cursorAnimator.SetBool(Select, false);
+            ResetWalkableUnits();
+
+            if (_selectedActor is not NavalShip navalShip) return;
+            var cannon = navalShip.NavalCannon;
+            var cannonData = cannon.GetCannonSo;
+            _walkableUnits = GridManager.GetSingleton().GetGridUnitsForMoveType(cannonData.targetAreaType, index,
+                cannonData.area, cannonData.deadZone);
+            _walkableUnits.ForEach(unit => { unit.DisplayWalkingVisuals(); });
+            
+            _stateMachine.ChangeStateTo(CursorState.Targeting);
+        }
+
+        public bool TargetSelectedGridUnit(GridUnit gridUnit)
+        {
+            return false;
+        }
+        
+        public bool MoveSelectedActorTo(GridUnit gridUnit)
         {
             if (gridUnit.Type() != GridUnitType.Blocked && _walkableUnits.Contains(gridUnit))
             {
-                _selectedActor.MoveTo(gridUnit, () => { _stateMachine.ChangeStateTo(CursorState.ShowingOptions); }, true, 0.15f);
+                _selectedActor.MoveTo(gridUnit, () => { _stateMachine.ChangeStateTo(CursorState.ShowingOptions); },
+                    true, 0.15f);
                 return true;
             }
 

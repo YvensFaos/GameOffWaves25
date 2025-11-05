@@ -4,5 +4,7 @@ namespace Grid
     {
         Cross, Area, Diagonal,
         Up, Down, Left, Right
+        
+        //TODO add Self
     }
 }

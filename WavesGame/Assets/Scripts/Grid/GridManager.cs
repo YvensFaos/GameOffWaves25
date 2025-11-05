@@ -189,6 +189,7 @@ namespace Grid
 
             return units;
 
+            //TODO remove the areas that are in the deadZone
             void GridUnitsInDiagonal()
             {
                 DiagonalMove(1, 1);

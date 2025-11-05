@@ -1,3 +1,4 @@
+using Grid;
 using UnityEngine;
 
 namespace Actors.Cannon
@@ -6,5 +7,7 @@ namespace Actors.Cannon
     public class CannonSo : ScriptableObject
     {
         public int area;
+        public int deadZone;
+        public GridMoveType targetAreaType;
     }
 }
