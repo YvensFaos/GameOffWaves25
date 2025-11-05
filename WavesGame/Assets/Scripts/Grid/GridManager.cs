@@ -189,7 +189,6 @@ namespace Grid
 
             return units;
 
-            //TODO remove the areas that are in the deadZone
             void GridUnitsInDiagonal()
             {
                 DiagonalMove(1, 1);
@@ -203,6 +202,7 @@ namespace Grid
                     var to = new Vector2Int(position.x + signX * distance, position.y + signY * distance);
                     GetValidGridPosition(to, out var validTo);
                     var steps = Mathf.Abs(validTo.x - position.x);
+                    steps -= deadZone;
                     while (steps > 0)
                     {
                         units.Add(_grid[validTo.x, validTo.y]);

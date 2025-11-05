@@ -32,6 +32,12 @@ namespace Grid
             spriteRenderer.sprite = GridManager.GetSingleton().GetSpriteForType(currentType);
         }
 
+        public void DisplayTargetingVisuals()
+        {
+            spriteRenderer.gameObject.SetActive(true);
+            spriteRenderer.sprite = GridManager.GetSingleton().GetSpriteForType(GridUnitType.Moveable);
+        }
+
         public void HideWalkingVisuals()
         {
             spriteRenderer.gameObject.SetActive(false);
@@ -76,6 +82,7 @@ namespace Grid
 
         public GridActor GetActor()
         {
+            //TODO investigate the disposal of the enumerator
             var enumerator = _actors.GetEnumerator();
             enumerator.MoveNext();
             return enumerator.Current;

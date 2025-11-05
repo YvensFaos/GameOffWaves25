@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76db4f5e68bb43c68d645e1a07713924, type: 3}
   m_Name: Test Cannon
   m_EditorClassIdentifier: Assembly-CSharp::Actors.Cannon.CannonSo
-  area: 4
-  deadZone: 3
+  area: 6
+  deadZone: 0
   targetAreaType: 1

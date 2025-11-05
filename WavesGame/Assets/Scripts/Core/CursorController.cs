@@ -150,8 +150,13 @@ namespace Core
             var cannonData = cannon.GetCannonSo;
             _walkableUnits = GridManager.GetSingleton().GetGridUnitsForMoveType(cannonData.targetAreaType, index,
                 cannonData.area, cannonData.deadZone);
-            _walkableUnits.ForEach(unit => { unit.DisplayWalkingVisuals(); });
-            
+            _walkableUnits.ForEach(unit =>
+            {
+                unit.DisplayTargetingVisuals();
+                var unitActor = unit.GetActor();
+                if (unitActor == null) return;
+                unitActor.ShowTarget();
+            });
             _stateMachine.ChangeStateTo(CursorState.Targeting);
         }
 

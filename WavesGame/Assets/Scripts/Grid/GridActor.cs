@@ -12,6 +12,8 @@ namespace Grid
         [Header("References")] [SerializeField, ReadOnly]
         private GridUnit currentUnit;
 
+        [SerializeField] private SpriteRenderer targetRenderer;
+
         [SerializeField] private bool blockGridUnit;
 
         protected virtual void Start()
@@ -49,6 +51,16 @@ namespace Grid
             unit.AddActor(this);
         }
 
+        public void ShowTarget()
+        {
+            targetRenderer.gameObject.SetActive(true);
+        }
+
+        public void HideTarget()
+        {
+            targetRenderer.gameObject.SetActive(false);
+        }
+        
         public bool BlockGridUnit => blockGridUnit;
         public GridUnit GetUnit() => currentUnit;
         public void SetUnit(GridUnit unit) => currentUnit = unit;
