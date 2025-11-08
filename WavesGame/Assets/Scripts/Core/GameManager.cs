@@ -14,5 +14,10 @@ namespace Core
             base.Awake();
             DebugUtils.enabledDebugTypes = enabledDebugTypes;
         }
+
+        private void OnValidate()
+        {
+            DebugUtils.enabledDebugTypes = enabledDebugTypes;
+        }
     }
 }

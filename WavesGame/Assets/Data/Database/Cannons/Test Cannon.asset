@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Actors.Cannon.CannonSo
   area: 6
   deadZone: 0
-  damage: 3
+  damage: 10
+  damageDie: 1d6
   targetAreaType: 1

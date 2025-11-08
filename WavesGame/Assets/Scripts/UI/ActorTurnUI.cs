@@ -32,7 +32,7 @@ namespace UI
 
         public int CompareTo(ActorTurnUI other)
         {
-            return navalShipSo.stats.Speed.CompareTo(other.navalShipSo.stats.Speed);
+            return navalShipSo.stats.speed.CompareTo(other.navalShipSo.stats.speed);
         }
         
         public NavalShip NavalShip => navalShip;

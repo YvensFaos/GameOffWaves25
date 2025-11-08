@@ -92,7 +92,7 @@ namespace Grid
 
         public List<GridUnit> GetGridUnitsInRadiusManhattan(Vector2Int position, int radius)
         {
-            DebugUtils.DebugLogMsg("Start Grid Manhattan Area.", DebugUtils.DebugType.Temporary);
+            DebugUtils.DebugLogMsg("Start Grid Manhattan Area.", DebugUtils.DebugType.Verbose);
             var inRadius = new List<GridUnit>();
             GetValidGridPosition(position, out var validPosition);
             var startUnit = _grid[validPosition.x, validPosition.y];
@@ -102,7 +102,7 @@ namespace Grid
             var visited = new HashSet<GridUnit>();
             toVisit.Add(new Tuple<GridUnit, int>(startUnit, radius));
             DebugUtils.DebugLogMsg($"Start from first node {startUnit.Index()} [{visited.Count}].",
-                DebugUtils.DebugType.Temporary);
+                DebugUtils.DebugType.Verbose);
             while (toVisit.Count > 0)
             {
                 var unitTuple = toVisit[0];
@@ -118,7 +118,7 @@ namespace Grid
 
                 visited.Add(gridUnit);
                 DebugUtils.DebugLogMsg($"Check node - {gridUnit.Index()} [{visited.Count}].",
-                    DebugUtils.DebugType.Temporary);
+                    DebugUtils.DebugType.Verbose);
 
                 var index = gridUnit.Index();
                 var currentRadius = unitTuple.Item2;
@@ -134,7 +134,7 @@ namespace Grid
                 inRadius.Add(gridUnit);
 
                 DebugUtils.DebugLogMsg($"Visiting next nodes from {gridUnit.Index()} [{visited.Count}].",
-                    DebugUtils.DebugType.Temporary);
+                    DebugUtils.DebugType.Verbose);
                 var newRadius = currentRadius - 1;
                 VisitNextNodeAt(new Vector2Int(index.x, index.y + 1), newRadius);
                 VisitNextNodeAt(new Vector2Int(index.x, index.y - 1), newRadius);
@@ -357,14 +357,14 @@ namespace Grid
         {
             //TODO consider a recursive function instead
             var pathFromTo = new List<GridUnit>();
-            DebugUtils.DebugLogMsg($"Start Path from [{from}] to [{to}] Manhattan.", DebugUtils.DebugType.Temporary);
+            DebugUtils.DebugLogMsg($"Start Path from [{from}] to [{to}] Manhattan.", DebugUtils.DebugType.Verbose);
             GetValidGridPosition(from, out var validPosition);
 
             var steps = maxSteps;
             var current = validPosition;
             while (steps >= 0)
             {
-                DebugUtils.DebugLogMsg($"Current step [{current}] [Step: {steps}].");
+                DebugUtils.DebugLogMsg($"Current step [{current}] [Step: {steps}].",  DebugUtils.DebugType.Verbose);
                 var currentUnit = _grid[current.x, current.y];
                 pathFromTo.Add(currentUnit);
                 if (currentUnit.Index() == to)
@@ -429,7 +429,7 @@ namespace Grid
                 visited.Add(current);
                 DebugUtils.DebugLogMsg(
                     $"FPR Current step [{currentUnit.Index()}] [Path Size: {pathFromTo.Count}, Hash Size: {visited.Count}] [Steps: {remainingSteps}].",
-                    DebugUtils.DebugType.Temporary);
+                    DebugUtils.DebugType.Verbose);
 
                 // Check if we reached target
                 if (current == to)

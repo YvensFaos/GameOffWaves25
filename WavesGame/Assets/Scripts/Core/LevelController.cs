@@ -47,6 +47,10 @@ namespace Core
                 turnUI.ToggleAvailability(true);
                 //TODO allow actor to act
                 _currentActor = turnUI.NavalShip;
+                if (_currentActor is NavalShip navalShip)
+                {
+                    navalShip.StartTurn();
+                }
                 yield return new WaitUntil(() => _endTurn);
                 turnUI.ToggleAvailability(false);
             }

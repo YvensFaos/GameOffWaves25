@@ -12,6 +12,16 @@ namespace Actors
         [SerializeField] private NavalShipSo shipData;
         [SerializeField] private BaseCannon navalCannon;
 
+        private int _actions;
+        private int _stepsAvailable;
+        
+        public void StartTurn()
+        {
+            //Reset turn variables
+            _actions = shipData.stats.spirit;
+            _stepsAvailable = shipData.stats.speed;
+        }
+        
         public void RollInitiative()
         {
             Initiative = shipData.RollInitiative();
@@ -19,8 +29,9 @@ namespace Actors
 
         public override void TakeDamage(int damage)
         {
-            var damageTaken = shipData.stats.Sturdiness - damage;
-            damageTaken = Mathf.Clamp(damageTaken, 0, int.MaxValue); //TODO replace MaxValue with some more controlled value
+            var damageTaken = damage - shipData.stats.sturdiness;
+            damageTaken = Mathf.Clamp(damageTaken, 0, int.MaxValue); //TODO replace int.MaxValue with some more controlled value
+            DebugUtils.DebugLogMsg($"{name} attacked with {damage}. Sturdiness is {shipData.stats.sturdiness}. Damage taken was {damageTaken}.", DebugUtils.DebugType.Temporary);
             base.TakeDamage(damageTaken);
         }
         
@@ -29,9 +40,11 @@ namespace Actors
             if (animate)
             {
                 var steps = GridManager.GetSingleton()
-                    .GetManhattanPathFromToRecursive(GetUnit().Index(), unit.Index(), shipData.movementStepsPerTurn,
+                    .GetManhattanPathFromToRecursive(GetUnit().Index(), unit.Index(), _stepsAvailable,
                         true);
-
+                var stepsCount = steps.Count - 1; //Removes the initial (current) step from the movement count.
+                _stepsAvailable = Mathf.Max(_stepsAvailable - stepsCount, 0);
+                
                 if (steps.Count <= 0)
                 {
                     onFinishMoving?.Invoke();
@@ -62,6 +75,7 @@ namespace Actors
 
         public NavalShipSo ShipData => shipData;
         public BaseCannon NavalCannon => navalCannon;
+        public int RemainingSteps => _stepsAvailable;
         public int Initiative { get; private set; }
 
         public int CompareTo(NavalShip other)

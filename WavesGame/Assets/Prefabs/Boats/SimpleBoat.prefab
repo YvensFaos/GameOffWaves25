@@ -253,7 +253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28a27e67eaa084b17be7ae3d2c854f13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Actors.NavalShip
-  maxHealth: 5
+  maxHealth: 10
   currentHealth: 0
   currentUnit: {fileID: 0}
   targetRenderer: {fileID: 6804080615908462149}

@@ -137,10 +137,9 @@ namespace Core
             void ShowWalkablePathForUnit()
             {
                 if (_selectedActor is not NavalShip navalShip) return;
-                var data = navalShip.ShipData;
                 ResetWalkableUnits();
                 _walkableUnits = GridManager.GetSingleton()
-                    .GetGridUnitsInRadiusManhattan(index, data.movementRadius);
+                    .GetGridUnitsInRadiusManhattan(index, navalShip.RemainingSteps);
                 _walkableUnits.ForEach(unit => { unit.DisplayWalkingVisuals(); });
             }
         }
@@ -204,7 +203,7 @@ namespace Core
                 return false;
             }
 
-            var damage = selectedNavalShip.ShipData.stats.Strength + selectedNavalShip.NavalCannon.CalculateDamage();
+            var damage = selectedNavalShip.ShipData.stats.strength + selectedNavalShip.NavalCannon.CalculateDamage();
             targetActor.TakeDamage(damage);
             // Camera shake and other effects
             HideAttackArea();

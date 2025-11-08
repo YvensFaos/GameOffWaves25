@@ -1,4 +1,5 @@
 using UnityEngine;
+using UUtils;
 
 namespace Actors
 {
@@ -7,11 +8,13 @@ namespace Actors
         [SerializeField]
         private NavalActorStats stats;
 
+        //TODO move this repeated code from Target and Ship to NavalActor with sturdiness as a parameter.
         public override void TakeDamage(int damage)
         {
-            var damageTaken = stats.Sturdiness - damage;
+            var damageTaken = damage - stats.sturdiness;
             damageTaken = Mathf.Clamp(damageTaken, 0, int.MaxValue); 
             //TODO replace MaxValue with some more controlled value
+            DebugUtils.DebugLogMsg($"{name} attacked with {damage}. Sturdiness is {stats.sturdiness}. Damage taken was {damageTaken}.", DebugUtils.DebugType.Temporary);
             base.TakeDamage(damageTaken);
         }
     }

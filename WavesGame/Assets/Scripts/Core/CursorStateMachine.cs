@@ -1,6 +1,7 @@
 using System;
 using Actors;
 using Grid;
+using UnityEngine;
 using UUtils;
 
 namespace Core
@@ -41,7 +42,7 @@ namespace Core
                     if (_cursorController.TargetSelectedGridUnit(unit))
                     {
                         var index = _currentGridUnit.Index();
-                        DebugUtils.DebugLogMsg($"Going back to position {index}.", DebugUtils.DebugType.Temporary);
+                        DebugUtils.DebugLogMsg($"Going to position {index}.", DebugUtils.DebugType.Temporary);
                         _cursorController.MoveToIndex(index);
                         ChangeStateTo(CursorState.Roaming);
                     }
@@ -74,9 +75,12 @@ namespace Core
                     _cursorController.HideOptionsPanel();
                     break;
                 case CursorState.Targeting:
+                    //TODO remove target from the enemies
+                    PlayerController.GetSingleton().onCancel -= CancelTargetingCommand;
                     break;
                 case CursorState.Moving:
                     _cursorController.ToggleActive(false);
+                    PlayerController.GetSingleton().onCancel -= CancelMovementCommand;
                     break;
                 case CursorState.OnTheMove:
                     break;
@@ -124,15 +128,28 @@ namespace Core
                     break;
                 case CursorState.Targeting:
                     _cursorController.ToggleActive(true);
+                    PlayerController.GetSingleton().onCancel += CancelTargetingCommand;
                     break;
                 case CursorState.Moving:
                     _cursorController.ToggleActive(true);
+                    PlayerController.GetSingleton().onCancel += CancelMovementCommand;
                     break;
                 case CursorState.OnTheMove:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void CancelMovementCommand()
+        {
+            ChangeStateTo(CursorState.Roaming);
+        }
+
+        private void CancelTargetingCommand()
+        {
+            _cursorController.HideAttackArea();
+            ChangeStateTo(CursorState.Roaming);
         }
 
         public CursorState CurrentState { get; private set; }

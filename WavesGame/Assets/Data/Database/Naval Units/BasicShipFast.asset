@@ -12,14 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d8e4a7096804eba93b4b8b591a6e4c1, type: 3}
   m_Name: BasicShipFast
   m_EditorClassIdentifier: Assembly-CSharp::Actors.NavalShipSo
-  movementRadius: 3
-  movementStepsPerTurn: 4
   shipSprite: {fileID: 7014570949939751374, guid: 43262961874514c35bedec549c865181, type: 3}
   stats:
-    Strength: 2
-    Speed: 3
-    Stability: 1
-    Scrutiny: 2
-    Sturdiness: 2
-    Spirit: 2
+    strength: 1
+    speed: 4
+    stability: 1
+    scrutiny: 2
+    sturdiness: 1
+    spirit: 1
   initiativeDie: 1d10
