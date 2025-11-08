@@ -38,7 +38,7 @@ namespace Core
             //Roll initiatives and order turns
             levelActionableActor.ForEach(actor => actor.RollInitiative());
             levelActionableActor.Sort();
-            levelActionableActor.ForEach(AddLevelToTurnBar);
+            levelActionableActor.ForEach(AddLevelActorToTurnBar);
             
             //Start level
             foreach (var turnUI in actorTurnUIs)
@@ -80,7 +80,7 @@ namespace Core
             }
         }
 
-        private void AddLevelToTurnBar(NavalShip navalShip)
+        private void AddLevelActorToTurnBar(NavalShip navalShip)
         {
             var newActorTurnUI = Instantiate(actorTurnUIPrefab, actorTurnsHolder);
             newActorTurnUI.Initialize(navalShip);

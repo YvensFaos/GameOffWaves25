@@ -10,6 +10,7 @@ namespace Actors
     public class NavalActor : GridActor
     {
         [SerializeField] private ParticleSystem damageParticles;
+        [SerializeField] private ParticleSystem missParticles;
         [SerializeField] private ParticleSystem destroyParticles;
         [SerializeField] private NavalActorType navalType;
         [SerializeField] private FillBar healthBar;
@@ -27,11 +28,19 @@ namespace Actors
 
         public override void TakeDamage(int damage)
         {
-            base.TakeDamage(damage);
-            var ratio = GetHealthRatio();
-            healthBar.SetFillFactor(ratio, 1 - ratio);
-            damageParticles.gameObject.SetActive(true);
-            damageParticles.Play();
+            if (damage > 0)
+            {
+                base.TakeDamage(damage);
+                var ratio = GetHealthRatio();
+                healthBar.SetFillFactor(ratio, 1 - ratio);
+                damageParticles.gameObject.SetActive(true);
+                damageParticles.Play();    
+            }
+            else
+            {
+                missParticles.gameObject.SetActive(true);
+                missParticles.Play();
+            }
         }
 
         protected override void DestroyActor()

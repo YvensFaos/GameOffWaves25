@@ -171,7 +171,7 @@ namespace Core
             _stateMachine.ChangeStateTo(CursorState.Targeting);
         }
 
-        public void HidAttackArea()
+        public void HideAttackArea()
         {
             cursorAnimator.SetBool(Select, false);
             _walkableUnits.ForEach(unit =>
@@ -204,10 +204,10 @@ namespace Core
                 return false;
             }
 
-            var damage = selectedNavalShip.NavalCannon.GetCannonSo.damage;
+            var damage = selectedNavalShip.ShipData.stats.Strength + selectedNavalShip.NavalCannon.CalculateDamage();
             targetActor.TakeDamage(damage);
             // Camera shake and other effects
-            HidAttackArea();
+            HideAttackArea();
             return true;
         }
         

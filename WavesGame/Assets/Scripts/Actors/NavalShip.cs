@@ -17,6 +17,13 @@ namespace Actors
             Initiative = shipData.RollInitiative();
         }
 
+        public override void TakeDamage(int damage)
+        {
+            var damageTaken = shipData.stats.Sturdiness - damage;
+            damageTaken = Mathf.Clamp(damageTaken, 0, int.MaxValue); //TODO replace MaxValue with some more controlled value
+            base.TakeDamage(damageTaken);
+        }
+        
         public override void MoveTo(GridUnit unit, Action onFinishMoving, bool animate = false, float time = 0.5f)
         {
             if (animate)

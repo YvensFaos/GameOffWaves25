@@ -168,7 +168,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1261158079
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 868371405, guid: d760b04eb1fe245c5b6351ceec5025dd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -257,9 +257,17 @@ MonoBehaviour:
   targetRenderer: {fileID: 7051062661897131671}
   blockGridUnit: 1
   damageParticles: {fileID: 841198641422027885}
+  missParticles: {fileID: 137584303423018675, guid: fa6a73bf54117458b8fdf2d6ca46dcd9, type: 3}
   destroyParticles: {fileID: 6445898351444543908, guid: a1512b06d3aad4f74adfa196cf36a4a8, type: 3}
   navalType: 2
   healthBar: {fileID: 450921235859958289}
+  stats:
+    Strength: 0
+    Speed: 0
+    Stability: 0
+    Scrutiny: 0
+    Sturdiness: 5
+    Spirit: 0
 --- !u!1001 &4444319291222323201
 PrefabInstance:
   m_ObjectHideFlags: 0

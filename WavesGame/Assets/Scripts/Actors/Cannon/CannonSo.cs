@@ -9,6 +9,7 @@ namespace Actors.Cannon
         public int area;
         public int deadZone;
         public int damage;
+        public string damageDie;
         public GridMoveType targetAreaType;
     }
 }

@@ -78,6 +78,7 @@ namespace UI
         {
             if (!CheckValidState()) return;
             LevelController.GetSingleton().EndTurnForCurrentActor();
+            cursorController.CancelSelectedActor();
         }
 
         private bool CheckValidState()

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UUtils;
 
 namespace Actors.Cannon
 {
@@ -8,5 +9,10 @@ namespace Actors.Cannon
         private CannonSo cannonData;
 
         public CannonSo GetCannonSo => cannonData;
+
+        public int CalculateDamage()
+        {
+            return cannonData.damage + DiceHelper.RollDiceFromString(cannonData.damageDie);
+        }
     }
 }
