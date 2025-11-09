@@ -207,7 +207,7 @@ namespace Core
                 return false;
             }
 
-            var damage = selectedNavalShip.ShipData.stats.strength + selectedNavalShip.NavalCannon.CalculateDamage();
+            var damage = selectedNavalShip.ShipData.stats.strength.Two + selectedNavalShip.NavalCannon.CalculateDamage();
             targetActor.TakeDamage(damage);
             // Camera shake and other effects
             HideAttackArea();
@@ -268,6 +268,7 @@ namespace Core
             _active = toggle;
         }
 
+        public NavalActor GetSelectedActor() => _selectedActor;
         public bool IsActive() => _active;
         public CursorState GetState() => _stateMachine?.CurrentState ?? CursorState.Roaming;
     }

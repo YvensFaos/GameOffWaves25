@@ -18,8 +18,8 @@ namespace Actors
         public void StartTurn()
         {
             //Reset turn variables
-            _actions = shipData.stats.spirit;
-            _stepsAvailable = shipData.stats.speed;
+            _actions = shipData.stats.spirit.Two;
+            _stepsAvailable = shipData.stats.speed.Two;
         }
         
         public void RollInitiative()
@@ -29,8 +29,8 @@ namespace Actors
 
         public override void TakeDamage(int damage)
         {
-            var damageTaken = damage - shipData.stats.sturdiness;
-            DebugUtils.DebugLogMsg($"{name} attacked with {damage}. Sturdiness is {shipData.stats.sturdiness}. Damage taken was {damageTaken}.", DebugUtils.DebugType.Temporary);
+            var damageTaken = damage - shipData.stats.sturdiness.Two;
+            DebugUtils.DebugLogMsg($"{name} attacked with {damage}. Sturdiness is {shipData.stats.sturdiness.Two}. Damage taken was {damageTaken}.", DebugUtils.DebugType.Temporary);
             base.TakeDamage(damageTaken);
         }
         

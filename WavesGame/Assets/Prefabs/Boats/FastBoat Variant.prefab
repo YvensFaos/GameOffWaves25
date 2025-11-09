@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 7014570949939751374, guid: 43262961874514c35bedec549c865181, type: 3}
+    - target: {fileID: 5520116451851239357, guid: df0fc36a30584412c9db2e1d6b8628df, type: 3}
+      propertyPath: cannonData
+      value: 
+      objectReference: {fileID: 11400000, guid: 4979e5cd249864692b8931f9df6b2c49, type: 2}
     - target: {fileID: 7856467234506490090, guid: df0fc36a30584412c9db2e1d6b8628df, type: 3}
       propertyPath: m_Sprite
       value: 

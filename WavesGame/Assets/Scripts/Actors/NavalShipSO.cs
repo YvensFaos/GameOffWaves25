@@ -13,7 +13,7 @@ namespace Actors
 
         public int RollInitiative()
         {
-            return stats.speed + DiceHelper.RollDiceFromString(initiativeDie);
+            return stats.speed.Two + DiceHelper.RollDiceFromString(initiativeDie);
         }
         
         //TODO add a validation for the initiativeDie

@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: ec257633ec8df425793d7db2d6acdb68
+guid: 894e0c7b964244f6ab9809ea13857adb
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5585361113866163379
-    second: stats_icons_0
-  - first:
-      213: 4054726279477280050
-    second: stats_icons_1
-  - first:
-      213: -5833301935116879810
-    second: stats_icons_2
+      213: -5256812697928488260
+    second: ui_boxes_02_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -30,7 +24,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 1
+  isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -78,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 128
+    maxTextureSize: 256
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -119,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: stats_icons_0
+      name: ui_boxes_02_0
       rect:
         serializedVersion: 2
         x: 0
@@ -128,20 +122,20 @@ TextureImporter:
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 2, y: 2, z: 2, w: 2}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3b4d54e2750338d40800000000000000
-      internalID: 5585361113866163379
+      spriteID: cbaa539f3bc0c07b0800000000000000
+      internalID: -5256812697928488260
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: stats_icons_1
+      name: ui_boxes_02_1
       rect:
         serializedVersion: 2
         x: 32
@@ -150,45 +144,23 @@ TextureImporter:
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 4, y: 4, z: 4, w: 4}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 23d3fad7118454830800000000000000
-      internalID: 4054726279477280050
+      spriteID: d43e320ade8f84c94860924c17773746
+      internalID: 1056391425
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: stats_icons_2
+      name: ui_boxes_02_4
       rect:
         serializedVersion: 2
-        x: 64
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e3872c1dbc2fb0fa0800000000000000
-      internalID: -5833301935116879810
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: stats_icons_3
-      rect:
-        serializedVersion: 2
-        x: 96
+        x: 128
         y: 32
         width: 32
         height: 32
@@ -200,14 +172,36 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aea7fb956cadc4232b72366b99c4e662
-      internalID: -1167895369
+      spriteID: 4e577e4cf410243b58875c4496a7ee93
+      internalID: 891750459
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: stats_icons_4
+      name: ui_boxes_02_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 32
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea6cf732184c44935a6551d2679ad6cd
+      internalID: 756421248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_boxes_02_6
       rect:
         serializedVersion: 2
         x: 0
@@ -216,20 +210,20 @@ TextureImporter:
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 2, y: 2, z: 2, w: 2}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 009f2fedb8a1548b8826445be21b299a
-      internalID: -1177787403
+      spriteID: 797d8715da4ae4ef6b99711d7bd5f44e
+      internalID: 179902127
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: stats_icons_5
+      name: ui_boxes_02_7
       rect:
         serializedVersion: 2
         x: 32
@@ -238,58 +232,80 @@ TextureImporter:
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 2, y: 2, z: 2, w: 2}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1b30eab0de6264e5d8797350af735615
-      internalID: -283492285
+      spriteID: 26695eea4e34e4eedb14b91c00e3f7bc
+      internalID: 2145802879
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: stats_icons_6
+      name: ui_boxes_02_8
       rect:
         serializedVersion: 2
         x: 64
         y: 0
-        width: 32
-        height: 32
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 8, y: 8, z: 8, w: 8}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bb002ffa1b1ed48d082f404088328120
-      internalID: 1671289718
+      spriteID: 66e537239a58549518225bfbfab602a1
+      internalID: -275819075
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: stats_icons_7
+      name: ui_boxes_02_10
       rect:
         serializedVersion: 2
-        x: 96
+        x: 128
         y: 0
         width: 32
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 8, y: 8, z: 8, w: 8}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: af976a605966f4068bca34f3f28d05ee
-      internalID: 171764808
+      spriteID: a1bd018f8a90341e7aebacbdd32d926f
+      internalID: -8787540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui_boxes_02_11
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 8, y: 8, z: 8, w: 8}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c4588e971c6f44f7e8fd24c906041f8a
+      internalID: 1063784427
       vertices: []
       indices: 
       edges: []
@@ -298,7 +314,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 36474c310efe5492d82dcb04d98150bf
+    spriteID: da3929ea72868488d83a11b992bf41e8
     internalID: 0
     vertices: []
     indices: 
@@ -310,14 +326,18 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      stats_icons_0: 5585361113866163379
-      stats_icons_1: 4054726279477280050
-      stats_icons_2: -5833301935116879810
-      stats_icons_3: -1167895369
-      stats_icons_4: -1177787403
-      stats_icons_5: -283492285
-      stats_icons_6: 1671289718
-      stats_icons_7: 171764808
+      ui_boxes_02_0: -5256812697928488260
+      ui_boxes_02_1: 1056391425
+      ui_boxes_02_10: -8787540
+      ui_boxes_02_11: 1063784427
+      ui_boxes_02_2: 1003148642
+      ui_boxes_02_3: -515786000
+      ui_boxes_02_4: 891750459
+      ui_boxes_02_5: 756421248
+      ui_boxes_02_6: 179902127
+      ui_boxes_02_7: 2145802879
+      ui_boxes_02_8: -275819075
+      ui_boxes_02_9: 1284794655
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

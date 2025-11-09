@@ -11,9 +11,11 @@ namespace Actors
         //TODO move this repeated code from Target and Ship to NavalActor with sturdiness as a parameter.
         public override void TakeDamage(int damage)
         {
-            var damageTaken = damage - stats.sturdiness;
+            var damageTaken = damage - stats.sturdiness.Two;
             DebugUtils.DebugLogMsg($"{name} attacked with {damage}. Sturdiness is {stats.sturdiness}. Damage taken was {damageTaken}.", DebugUtils.DebugType.Temporary);
             base.TakeDamage(damageTaken);
         }
+        
+        public NavalActorStats GetStats() => stats;
     }
 }

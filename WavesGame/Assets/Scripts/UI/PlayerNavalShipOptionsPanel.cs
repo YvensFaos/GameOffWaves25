@@ -16,6 +16,7 @@ namespace UI
         [SerializeField] private RectTransform selfRectTransform;
         [SerializeField] private Button initialButton;
         [SerializeField] private List<Button> turnButtons;
+        [SerializeField] private InfoPanelUI infoPanelUI;
 
         private TweenerCore<Vector3, Vector3, VectorOptions> _showUpTween;
         private bool _introAnimation;
@@ -24,11 +25,12 @@ namespace UI
         {
             AssessUtils.CheckRequirement(ref cursorController, this);
             AssessUtils.CheckRequirement(ref selfRectTransform, this);
+            AssessUtils.CheckRequirement(ref infoPanelUI, this);
         }
 
         public void ShowOptions(bool currentActor)
         {
-            turnButtons.ForEach(b => b.interactable = currentActor);
+            turnButtons.ForEach(button => button.interactable = currentActor);
             gameObject.SetActive(true);
         }
         
@@ -48,6 +50,7 @@ namespace UI
         {
             _showUpTween?.Kill();
             PlayerController.GetSingleton().onCancel -= Cancel;
+            infoPanelUI.Close();
             // TODO - check if necessary again in the future 
             // EventSystem.current.SetSelectedGameObject(null); 
         }
@@ -55,22 +58,27 @@ namespace UI
         public void Move()
         {
             if (!CheckValidState()) return;
+            infoPanelUI.Close();
             cursorController.CommandToMoveSelectedActor();
         }
 
         public void Attack()
         {
             if (!CheckValidState()) return;
+            infoPanelUI.Close();
             cursorController.CommandToDisplayAttackArea();
         }
 
         public void Info()
         {
+            if (!CheckValidState()) return;
+            infoPanelUI.OpenWith(cursorController.GetSelectedActor());
         }
 
         public void Cancel()
         {
             if (!CheckValidState()) return;
+            infoPanelUI.Close();
             cursorController.CancelSelectedActor();
         }
 
@@ -78,6 +86,7 @@ namespace UI
         {
             if (!CheckValidState()) return;
             LevelController.GetSingleton().EndTurnForCurrentActor();
+            infoPanelUI.Close();
             cursorController.CancelSelectedActor();
         }
 

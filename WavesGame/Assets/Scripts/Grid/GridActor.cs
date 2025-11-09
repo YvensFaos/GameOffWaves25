@@ -84,6 +84,6 @@ namespace Grid
         public void SetUnit(GridUnit unit) => currentUnit = unit;
         public int GetMaxHealth() => maxHealth;
         public int GetCurrentHealth() => currentHealth;
-        protected float GetHealthRatio() => (float) currentHealth / maxHealth;
+        public float GetHealthRatio() => (float) currentHealth / maxHealth;
     }
 }
