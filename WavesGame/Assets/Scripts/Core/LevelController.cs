@@ -169,6 +169,9 @@ namespace Core
             var actionPair = levelActionableActor.Find(pair => pair.One.Equals(navalShip));
             actionPair.Two = false;
 
+            //Remove the naval ship from the list of active naval ships.
+            levelNavalActors.Remove(navalShip);
+
             var actorTurnUI = actorTurnUIs.Find(ac => ac.NavalShip.Equals(navalShip));
             if (actorTurnUIs == null) return;
             actorTurnUIs.Remove(actorTurnUI);
