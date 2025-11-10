@@ -10,22 +10,37 @@ using UUtils;
 
 namespace Core
 {
+    [Serializable]
+    internal class LevelActorPair : Pair<NavalShip, bool>, IComparable<LevelActorPair>
+    {
+        public LevelActorPair(NavalShip one) : base(one, true)
+        {
+        }
+
+        public static implicit operator bool(LevelActorPair pair) => pair.One != null && pair.Two;
+
+        public int CompareTo(LevelActorPair other)
+        {
+            return One.CompareTo(other.One);
+        }
+    }
+
     public class LevelController : WeakSingleton<LevelController>
     {
-        [Header("Data")] 
-        [SerializeField] private List<GridActor> levelActors;
+        [Header("Data")] [SerializeField] private List<GridActor> levelActors;
         [SerializeField, ReadOnly] private List<NavalActor> levelNavalActors;
-        [SerializeField, ReadOnly] private List<NavalShip> levelActionableActor;
+        [SerializeField, ReadOnly] private List<LevelActorPair> levelActionableActor;
         [SerializeField, ReadOnly] private List<ActorTurnUI> actorTurnUIs;
 
-        [Header("References")] 
-        [SerializeField] private RectTransform actorTurnsHolder;
+        [Header("References")] [SerializeField]
+        private RectTransform actorTurnsHolder;
+
         [SerializeField] private ActorTurnUI actorTurnUIPrefab;
 
         private Coroutine _levelCoroutine;
         private NavalActor _currentActor;
         private bool _endTurn;
-        
+
         private void Start()
         {
             _levelCoroutine = StartCoroutine(LevelCoroutine());
@@ -36,10 +51,10 @@ namespace Core
             //Wait for one frame for all elements to be initialized
             yield return null;
             //Roll initiatives and order turns
-            levelActionableActor.ForEach(actor => actor.RollInitiative());
+            levelActionableActor.ForEach(actorPair => actorPair.One.RollInitiative());
             levelActionableActor.Sort();
-            levelActionableActor.ForEach(AddLevelActorToTurnBar);
-            
+            levelActionableActor.ForEach(actorPair => AddLevelActorToTurnBar(actorPair.One));
+
             //Start level
             //TODO check! ships being destroyed during the iteration.
 
@@ -53,10 +68,12 @@ namespace Core
                     continueLevel = false;
                     continue;
                 }
-                
-                if (enumerator.MoveNext())
+
+                while(enumerator.MoveNext())
                 {
-                    _currentActor = enumerator.Current;
+                    //If the current is valid, then proceed with its turn.
+                    if (!enumerator.Current) continue;
+                    _currentActor = enumerator.Current?.One;
                     _endTurn = false;
                     if (_currentActor is NavalShip navalShip)
                     {
@@ -66,25 +83,26 @@ namespace Core
                         yield return new WaitUntil(() => _endTurn);
                         //Check if the naval ship was not destroyed during its own turn.
                         if (navalShip == null) continue;
-                        navalShip.EndTurn();    
+                        navalShip.EndTurn();
                         //TODO check if this is necessary of it maybe this has been destroyed already
-                        turnUI.ToggleAvailability(false);
+                        if (enumerator.Current is { Two: true })
+                        {
+                            turnUI.ToggleAvailability(false);    
+                        }
                     }
                     else
                     {
-                        yield return new WaitUntil(() => _endTurn);    
+                        yield return new WaitUntil(() => _endTurn);
                     }
-                    
                 }
-                else
-                {
-                    enumerator.Dispose();
-                    //If there are no more enumerators ahead, then start from the beginning.
-                    enumerator = levelActionableActor.GetEnumerator();
-                }
+                enumerator.Dispose();
+                //Finished going through all characters
+                //If there are no more enumerators ahead, then start from the beginning.
+                enumerator = levelActionableActor.GetEnumerator();
             }
+
             enumerator.Dispose();
-            
+
             //TODO Level ended
         }
 
@@ -95,7 +113,7 @@ namespace Core
         {
             _endTurn = true;
         }
-        
+
         public void AddLevelActor(GridActor actor)
         {
             levelActors.Add(actor);
@@ -107,8 +125,9 @@ namespace Core
                 case NavalActorType.Enemy:
                     if (navalActor is NavalShip navalShip)
                     {
-                        levelActionableActor.Add(navalShip);   
+                        levelActionableActor.Add(new LevelActorPair(navalShip));
                     }
+
                     break;
                 case NavalActorType.Collectable:
                 case NavalActorType.Obstacle:
@@ -134,7 +153,8 @@ namespace Core
         public void NotifyDestroyedActor(NavalActor navalActor)
         {
             //TODO logic for a generic actor being destroyed
-            DebugUtils.DebugLogMsg($"Naval Actor {navalActor.name} notified Level Controller of its destruction.", DebugUtils.DebugType.Verbose);
+            DebugUtils.DebugLogMsg($"Naval Actor {navalActor.name} notified Level Controller of its destruction.",
+                DebugUtils.DebugType.Verbose);
         }
 
         public void NotifyDestroyedActor(NavalShip navalShip)
@@ -144,14 +164,15 @@ namespace Core
                 //TODO current turn is for the actor being destroyed
                 EndTurnForCurrentActor();
             }
-            else
-            {
-                levelActionableActor.Remove(navalShip);
-                var actorTurnUI = actorTurnUIs.Find(ac => ac.NavalShip.Equals(navalShip));
-                if (actorTurnUIs == null) return;
-                actorTurnUIs.Remove(actorTurnUI);
-                Destroy(actorTurnUI.gameObject);
-            }
+
+            //Set the pair as false, so its level should be skipped.
+            var actionPair = levelActionableActor.Find(pair => pair.One.Equals(navalShip));
+            actionPair.Two = false;
+
+            var actorTurnUI = actorTurnUIs.Find(ac => ac.NavalShip.Equals(navalShip));
+            if (actorTurnUIs == null) return;
+            actorTurnUIs.Remove(actorTurnUI);
+            Destroy(actorTurnUI.gameObject);
         }
 
         private ActorTurnUI GetActorTurnUI(NavalShip navalShip)

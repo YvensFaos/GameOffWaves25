@@ -216,12 +216,12 @@ namespace Core
 
         /// <summary>
         /// Move to the given GridUnit.
-        /// Checks if the movement is valid by either checking if the movement is towards the GridUnit the Actor is already at,
-        /// and also check if the given GridUnit is not Blocked and belongs to the walkable list.
+        /// Checks if the movement is valid by either checking if the movement is towards the GridUnit the Actor is
+        /// already at, and also check if the given GridUnit is not Blocked and belongs to the walkable list.
         /// </summary>
         /// <param name="gridUnit"></param>
-        /// <returns>True if the movement is done. False if there is no movement (moving to the current grid unit) or the
-        /// movement is invalid (blocked or outside the walkable list).</returns>
+        /// <returns>True if the movement is done. False if there is no movement (moving to the current grid unit) or
+        /// the movement is invalid (blocked or outside the walkable list).</returns>
         public bool MoveSelectedActorTo(GridUnit gridUnit)
         {
             if (gridUnit.Equals(_selectedActor.GetUnit()))
