@@ -1,31 +1,40 @@
 fileFormatVersion: 2
-guid: 633dfc6ebf71642ce9792ebb07e30f43
+guid: 7cf09439bc77a4e1f95d85ed3de5cdc5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6413746385305523767
-    second: wave_01-Sheet_0
+      213: -3859274365948021984
+    second: wave_03-Sheet_0
   - first:
-      213: 1490294702429293137
-    second: wave_01-Sheet_1
+      213: -951448277728849596
+    second: wave_03-Sheet_1
   - first:
-      213: 8866986233348957672
-    second: wave_01-Sheet_2
+      213: 7152976313759310191
+    second: wave_03-Sheet_2
   - first:
-      213: 3298832096214650743
-    second: wave_01-Sheet_3
+      213: -2293740517736517453
+    second: wave_03-Sheet_3
   - first:
-      213: -9216206739636029424
-    second: wave_01-Sheet_4
+      213: 9171089751506651939
+    second: wave_03-Sheet_4
   - first:
-      213: -4031539003297981027
-    second: wave_01-Sheet_5
+      213: 3203045635667708342
+    second: wave_03-Sheet_5
   - first:
-      213: -2193622252678633891
-    second: wave_01-Sheet_6
+      213: 7241479140852559128
+    second: wave_03-Sheet_6
   - first:
-      213: 5762100057761678278
-    second: wave_01-Sheet_7
+      213: 9046092602941019084
+    second: wave_03-Sheet_7
+  - first:
+      213: 6797535133531596710
+    second: wave_03-Sheet_8
+  - first:
+      213: -183386120933381928
+    second: wave_03-Sheet_9
+  - first:
+      213: 7980306308699547344
+    second: wave_03-Sheet_10
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -93,7 +102,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 128
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -134,95 +143,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: wave_01-Sheet_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 32
-        width: 32
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.27}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9c92b60e4abcdf6a0800000000000000
-      internalID: -6413746385305523767
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: wave_01-Sheet_1
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 32
-        width: 32
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.27}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 15ac1fcc2279ea410800000000000000
-      internalID: 1490294702429293137
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: wave_01-Sheet_2
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 32
-        width: 32
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.27}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7bae529db13be4405b1fcb3641cb92f3
-      internalID: 8866986233348957672
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: wave_01-Sheet_3
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 32
-        width: 32
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.27}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bf7883b68ac8b40b8a82513b2627a010
-      internalID: 3298832096214650743
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: wave_01-Sheet_4
+      name: wave_03-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -235,16 +156,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 1c5e7f1cfa52040a7b716ad4da3e5e1c
-      internalID: -9216206739636029424
+      spriteID: 023b5e6596a117ac0800000000000000
+      internalID: -3859274365948021984
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wave_01-Sheet_5
+      name: wave_03-Sheet_1
       rect:
         serializedVersion: 2
         x: 32
@@ -257,16 +178,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 1ad48cd92c3f14d3eaa80d9b73bca5fe
-      internalID: -4031539003297981027
+      spriteID: 44190d715d6cbc2f0800000000000000
+      internalID: -951448277728849596
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wave_01-Sheet_6
+      name: wave_03-Sheet_2
       rect:
         serializedVersion: 2
         x: 64
@@ -279,16 +200,16 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 46d2497d961204cc782b20631818c1b2
-      internalID: -2193622252678633891
+      spriteID: f61286c2f0a744360800000000000000
+      internalID: 7152976313759310191
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wave_01-Sheet_7
+      name: wave_03-Sheet_3
       rect:
         serializedVersion: 2
         x: 96
@@ -301,10 +222,120 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: e1394cd86ce354e18a7f7c285a80c3cd
-      internalID: 5762100057761678278
+      spriteID: 3b0f461e62ffa20e0800000000000000
+      internalID: -2293740517736517453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_03-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.27}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 32b87c9d981464f70800000000000000
+      internalID: 9171089751506651939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_03-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.27}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b9c6510901837c20800000000000000
+      internalID: 3203045635667708342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_03-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.27}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81deaee59e6ee7460800000000000000
+      internalID: 7241479140852559128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_03-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.27}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc3969b4b4d2a8d70800000000000000
+      internalID: 9046092602941019084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wave_03-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.27}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a763666032b55e50800000000000000
+      internalID: 6797535133531596710
       vertices: []
       indices: 
       edges: []
@@ -313,7 +344,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 432962edb3ddd47f7bdb7da59a5fe0c1
+    spriteID: 4c0dac856b21f475ab41a49d869cb505
     internalID: 0
     vertices: []
     indices: 
@@ -325,14 +356,15 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.27000001072883608},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":9,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      wave_01-Sheet_0: -6413746385305523767
-      wave_01-Sheet_1: 1490294702429293137
-      wave_01-Sheet_2: 8866986233348957672
-      wave_01-Sheet_3: 3298832096214650743
-      wave_01-Sheet_4: -9216206739636029424
-      wave_01-Sheet_5: -4031539003297981027
-      wave_01-Sheet_6: -2193622252678633891
-      wave_01-Sheet_7: 5762100057761678278
+      wave_03-Sheet_0: -3859274365948021984
+      wave_03-Sheet_1: -951448277728849596
+      wave_03-Sheet_2: 7152976313759310191
+      wave_03-Sheet_3: -2293740517736517453
+      wave_03-Sheet_4: 9171089751506651939
+      wave_03-Sheet_5: 3203045635667708342
+      wave_03-Sheet_6: 7241479140852559128
+      wave_03-Sheet_7: 9046092602941019084
+      wave_03-Sheet_8: 6797535133531596710
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

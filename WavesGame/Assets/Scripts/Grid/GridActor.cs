@@ -15,6 +15,7 @@ namespace Grid
         protected GridUnit currentUnit;
 
         [SerializeField] private SpriteRenderer targetRenderer;
+        [SerializeField] private bool destructible = true;
         [SerializeField] private bool blockGridUnit;
 
         protected virtual void Start()
@@ -29,6 +30,8 @@ namespace Grid
 
         public virtual void TakeDamage(int damage)
         {
+            if (!destructible) return;
+            
             currentHealth = Mathf.Clamp(currentHealth - damage, 0, maxHealth);
             if (currentHealth <= 0)
             {

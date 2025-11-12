@@ -100,25 +100,23 @@ namespace Core
                     DebugUtils.DebugLogMsg($"Selecting grid unit {_currentGridUnit} | Contains {_currentGridUnit.ActorsCount()} actors.", DebugUtils.DebugType.Verbose);
                     if (_currentGridUnit.ActorsCount() > 0)
                     {
-                        var getTopActor = _currentGridUnit.GetActor();
-                        if (getTopActor is NavalActor navalActor)
+                        var actorEnumerator = _currentGridUnit.GetActorEnumerator();
+                        while(actorEnumerator.MoveNext())
                         {
-                            DebugUtils.DebugLogMsg($"Top actor is a Naval Actor {navalActor.name} {navalActor}.", DebugUtils.DebugType.Verbose);
+                            var getTopActor = actorEnumerator.Current;
+                            if (getTopActor is not NavalActor navalActor) continue;
+                            DebugUtils.DebugLogMsg($"Top actor is a Naval Actor {navalActor.name} {navalActor}.",
+                                DebugUtils.DebugType.Verbose);
                             _cursorController.SetSelectedActor(navalActor);
                             // ReSharper disable once TailRecursiveCall
                             ChangeStateTo(CursorState.ShowingOptions);
+                            return;
                         }
-                        else
-                        {
-                            //TODO something wrong
-                        }
+                        NoValidActorFound();
                     }
                     else
                     {
-                        DebugUtils.DebugLogMsg($"No actors found in grid unit {_currentGridUnit}.", DebugUtils.DebugType.Verbose);
-                        // ReSharper disable once TailRecursiveCall
-                        ChangeStateTo(CursorState.Roaming);
-                        // If select a grid unit with no actor, then just return back to roaming
+                        NoValidActorFound();
                     }
 
                     break;
@@ -137,6 +135,15 @@ namespace Core
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
+            }
+
+            return;
+
+            void NoValidActorFound()
+            {
+                DebugUtils.DebugLogMsg($"No valid actors found in grid unit {_currentGridUnit}.", DebugUtils.DebugType.Verbose);
+                ChangeStateTo(CursorState.Roaming);
+                // If select a grid unit with no actor, then just return back to roaming
             }
         }
 
