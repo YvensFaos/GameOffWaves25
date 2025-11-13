@@ -191,39 +191,50 @@ namespace Core
 
         public bool TargetSelectedGridUnit(GridUnit gridUnit)
         {
-            var targetActor = gridUnit.GetActor();
-            if (targetActor == null)
+            var enumerator = gridUnit.GetActorEnumerator();
+            var attackHappened = false;
+            while (enumerator.MoveNext())
             {
-                DebugUtils.DebugLogMsg($"Grid unit {gridUnit.Index()} has no valid target actor.",
-                    DebugUtils.DebugType.Error);
-                return false;
-            }
+                var targetActor = enumerator.Current;
+                if (targetActor == null)
+                {
+                    DebugUtils.DebugLogMsg($"Grid unit {gridUnit.Index()} has no valid target actor.",
+                        DebugUtils.DebugType.Error);
+                    continue;
+                }
 
-            if (_selectedActor == null)
-            {
-                DebugUtils.DebugLogMsg($"Selected actor {index} is not valid (null).", DebugUtils.DebugType.Error);
-                return false;
-            }
+                if (_selectedActor == null)
+                {
+                    DebugUtils.DebugLogMsg($"Selected actor {index} is not valid (null).", DebugUtils.DebugType.Error);
+                    continue;
+                }
 
-            if (_selectedActor is not NavalShip selectedNavalShip)
-            {
-                DebugUtils.DebugLogMsg($"Targeting selected actor is not a Naval Ship {_selectedActor.name}.",
-                    DebugUtils.DebugType.Error);
-                return false;
-            }
+                if (_selectedActor is not NavalShip navalShip)
+                {
+                    DebugUtils.DebugLogMsg($"Targeting selected actor is not a Naval Ship {_selectedActor.name}.",
+                        DebugUtils.DebugType.Error);
+                    continue;
+                }
 
-            if (selectedNavalShip.TryToAct())
-            {
-                var damage = selectedNavalShip.CalculateDamage();
-                targetActor.TakeDamage(damage);    
-            }
-            else
-            {
-                DebugUtils.DebugLogMsg($"Selected actor {selectedNavalShip.name} has no actions left.",
-                    DebugUtils.DebugType.Error);
+                if (navalShip.CanAct())
+                {
+                    DebugUtils.DebugLogMsg($"Act upon {targetActor.name}!", DebugUtils.DebugType.Verbose);
+                    var damage = navalShip.CalculateDamage();
+                    targetActor.TakeDamage(damage);    
+                    attackHappened = true;
+                }
+                else
+                {
+                    DebugUtils.DebugLogMsg($"Selected actor {navalShip.name} has no actions left.",
+                        DebugUtils.DebugType.Error);
+                }
             }
             HideAttackArea();
-            return true;
+            if (attackHappened && _selectedActor is NavalShip selectedNavalShip)
+            {
+                selectedNavalShip.TryToAct();
+            }
+            return attackHappened;
         }
 
         /// <summary>

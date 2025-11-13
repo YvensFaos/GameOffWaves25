@@ -85,7 +85,17 @@ namespace Grid
             //TODO investigate the disposal of the enumerator
             var enumerator = _actors.GetEnumerator();
             enumerator.MoveNext();
-            return enumerator.Current;
+            var current = enumerator.Current;
+            enumerator.Dispose();
+            return current;
+        }
+
+        public void DamageActors(int damage)
+        {
+            foreach (var gridActor in _actors)
+            {
+                gridActor.TakeDamage(damage);
+            }
         }
 
         public GridUnitType Type() => currentType;
