@@ -58,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: dd71c96d5565c4acea8af73a6199eed7, type: 2}
     - target: {fileID: 6445898351444543908, guid: a1512b06d3aad4f74adfa196cf36a4a8, type: 3}
       propertyPath: stopAction
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6445898351444543908, guid: a1512b06d3aad4f74adfa196cf36a4a8, type: 3}
       propertyPath: UVModule.tilesX

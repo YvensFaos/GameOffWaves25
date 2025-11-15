@@ -31,12 +31,28 @@ namespace Actors
 
         public override void TakeDamage(int damage)
         {
+            DebugUtils.DebugLogMsg($"Wave actor {name} was attacked with {damage}.", DebugUtils.DebugType.Verbose);
             base.TakeDamage(damage);
             if (damage <= 0) return;
             damageParticles?.Play();
             var attackArea = GridManager.GetSingleton()
                 .GetGridUnitsForMoveType(waveDirection, GetUnit().Index(), areaOfEffect);
-            attackArea.ForEach(unit => { unit.DamageActors(damage); });
+            attackArea.ForEach(unit =>
+            {
+                if (unit.ActorsCount() > 0)
+                {
+                    unit.DamageActors(damage);    
+                }
+                else
+                {
+                    var unitTransform = unit.transform;
+                    var particles = Instantiate(damageParticles, unitTransform.position, unitTransform.rotation);
+                    particles.Play();
+                    var totalTime = particles.main.duration;
+                    Destroy(particles.gameObject, totalTime);
+                }
+                
+            });
         }
     }
 }

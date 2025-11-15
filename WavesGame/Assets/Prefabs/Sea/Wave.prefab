@@ -386,3 +386,5 @@ MonoBehaviour:
     two: {fileID: -7326266496884701799, guid: f3ee0741759fe4f408388dda417b091e, type: 3}
   - one: 6
     two: {fileID: -7849777526479959775, guid: f3ee0741759fe4f408388dda417b091e, type: 3}
+  damageParticles: {fileID: 2873390319492858764, guid: c0c8919f6c85d4b96ac060adb0640651, type: 3}
+  areaOfEffect: 1
