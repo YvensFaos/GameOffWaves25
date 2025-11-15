@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -82,7 +83,6 @@ namespace Grid
 
         public GridActor GetActor()
         {
-            //TODO investigate the disposal of the enumerator
             var enumerator = _actors.GetEnumerator();
             enumerator.MoveNext();
             var current = enumerator.Current;
@@ -103,6 +103,7 @@ namespace Grid
         public Vector2Int Index() => index;
         public bool HasValidActors() => _actors != null;
         public int ActorsCount() => _actors.Count;
+        [MustDisposeResource]
         public HashSet<GridActor>.Enumerator GetActorEnumerator() => _actors.GetEnumerator();
     }
 }

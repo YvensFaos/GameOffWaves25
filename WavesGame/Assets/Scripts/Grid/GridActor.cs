@@ -17,6 +17,7 @@ namespace Grid
         [SerializeField] private SpriteRenderer targetRenderer;
         [SerializeField] private bool destructible = true;
         [SerializeField] private bool blockGridUnit;
+        [SerializeField] private bool hasStepEffect;
 
         protected virtual void Start()
         {
@@ -48,7 +49,7 @@ namespace Grid
 
         public virtual void MoveTo(GridUnit unit, Action onFinishMoving, bool animate = false, float time = 0.5f)
         {
-            UpdateUnitOnMovement(unit);
+            UpdateGridUnitOnMovement(unit);
 
             if (animate)
             {
@@ -61,7 +62,7 @@ namespace Grid
             }
         }
 
-        protected void UpdateUnitOnMovement(GridUnit unit)
+        protected void UpdateGridUnitOnMovement(GridUnit unit)
         {
             if (currentUnit != null)
             {
@@ -82,7 +83,17 @@ namespace Grid
             targetRenderer.gameObject.SetActive(false);
         }
 
+        /// <summary>
+        /// Applies any sort of effect to the GridActor that steps on this while moving.
+        /// </summary>
+        /// <returns>Returns the effects of stepping on this actor.</returns>
+        public virtual GridStepEffectResult StepEffect(GridActor stepper)
+        {
+            return new GridStepEffectResult(true, null, false, 0);
+        }
+
         public bool BlockGridUnit => blockGridUnit;
+        public bool HasStepEffect => hasStepEffect;
         public GridUnit GetUnit() => currentUnit;
         public void SetUnit(GridUnit unit) => currentUnit = unit;
         public int GetMaxHealth() => maxHealth;

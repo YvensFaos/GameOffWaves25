@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using Actors.Cannon;
 using Core;
 using DG.Tweening;
@@ -73,26 +75,35 @@ namespace Actors
                     return;
                 }
 
-                var movementSequence = DOTween.Sequence();
-                steps.ForEach(step =>
-                {
-                    DebugUtils.DebugLogMsg($"Path [{step.Index()}]", DebugUtils.DebugType.Temporary);
-                    movementSequence.Append(transform.DOMove(step.transform.position, time));
-                });
-                movementSequence.OnComplete(() =>
-                {
-                    //Moves to the final step in the sequence.
-                    UpdateUnitOnMovement(steps[^1]);
-                    onFinishMoving?.Invoke();
-                });
-                movementSequence.Play();
+                //TODO change to apply on movement actions per step
+                StartCoroutine(MovementStepsCoroutine(steps, onFinishMoving, time));
+
+                // var movementSequence = DOTween.Sequence();
+                // steps.ForEach(step =>
+                // {
+                //     DebugUtils.DebugLogMsg($"Path [{step.Index()}]", DebugUtils.DebugType.Temporary);
+                //     movementSequence.Append(transform.DOMove(step.transform.position, time));
+                // });
+                // movementSequence.OnComplete(() =>
+                // {
+                //     //Moves to the final step in the sequence.
+                //     UpdateGridUnitOnMovement(steps[^1]);
+                //     onFinishMoving?.Invoke();
+                // });
+                // movementSequence.Play();
             }
             else
             {
                 transform.position = unit.transform.position;
-                UpdateUnitOnMovement(unit);
+                UpdateGridUnitOnMovement(unit);
                 onFinishMoving?.Invoke();
             }
+        }
+
+
+        private IEnumerator MovementStepsCoroutine(List<GridUnit> steps, Action onFinishMoving, float time)
+        {
+            yield return null;
         }
         
         protected override void NotifyLevelController()

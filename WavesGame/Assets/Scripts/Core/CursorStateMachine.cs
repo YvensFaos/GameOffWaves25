@@ -109,9 +109,11 @@ namespace Core
                                 DebugUtils.DebugType.Verbose);
                             _cursorController.SetSelectedActor(navalActor);
                             // ReSharper disable once TailRecursiveCall
+                            actorEnumerator.Dispose();
                             ChangeStateTo(CursorState.ShowingOptions);
                             return;
                         }
+                        actorEnumerator.Dispose();
                         NoValidActorFound();
                     }
                     else
