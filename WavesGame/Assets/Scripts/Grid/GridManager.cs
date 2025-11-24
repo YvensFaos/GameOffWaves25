@@ -100,16 +100,16 @@ namespace Grid
             validPosition = position;
             if (CheckPosition(position)) return true;
             validPosition.x = position.x < 0 ? 0 :
-                position.x > _grid.GetLength(0) ? _grid.GetLength(0) - 1 : position.x;
+                position.x >= _grid.GetLength(0) ? _grid.GetLength(0) - 1 : position.x;
             validPosition.y = position.y < 0 ? 0 :
-                position.y > _grid.GetLength(0) ? _grid.GetLength(0) - 1 : position.y;
+                position.y >= _grid.GetLength(0) ? _grid.GetLength(0) - 1 : position.y;
             return false;
         }
 
         private bool CheckPosition(Vector2Int position)
         {
-            return position.x >= 0 && position.x <= _grid.GetLength(0) && position.y >= 0 &&
-                   position.y <= _grid.GetLength(1);
+            return position.x >= 0 && position.x < _grid.GetLength(0) && position.y >= 0 &&
+                   position.y < _grid.GetLength(1);
         }
 
         public List<GridUnit> GetGridUnitsInRadiusManhattan(Vector2Int position, int radius)
