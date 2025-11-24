@@ -1,8 +1,11 @@
+using System;
 using Core;
 using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UUtils;
 
 namespace UI
@@ -13,12 +16,18 @@ namespace UI
         private TextMeshProUGUI endLevelText;
         [SerializeField, Scene]
         private string mainMenuScene;
+        [SerializeField]
+        private Button firstButton;
 
         public void OpenEndLevelPanel(bool victory)
         {
             endLevelText.text = victory ? "Victory" : "Defeat";
+            DelayHelper.DelayOneFrame(this, () =>
+            {
+                EventSystem.current.SetSelectedGameObject(firstButton.gameObject);
+            });
         }
-        
+
         public void NextLevel()
         {
             var nextLevel = LevelController.GetSingleton().GetNextLevelName();
