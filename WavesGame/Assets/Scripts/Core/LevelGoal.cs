@@ -90,6 +90,19 @@ namespace Core
             return false;
         }
 
+        public string GetLevelMessage()
+        {
+            return type switch
+            {
+                LevelGoalType.DestroyAllTargets => "Destroy All Targets",
+                LevelGoalType.DestroyAllEnemies => "Destroy All Enemies",
+                LevelGoalType.SurviveForTurns => $"Survive for {surviveForTurns} Turns",
+                LevelGoalType.DestroySpecificEnemy => $"Destroy {destroyTarget.name}",
+                LevelGoalType.Custom => $"Custom Goal",
+                _ => throw new ArgumentOutOfRangeException()
+            };
+        }
+
         public void SurvivedTurn()
         {
             _survivedTurns++;

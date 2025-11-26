@@ -1,29 +1,23 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UUtils;
 
 namespace Grid
 {
-    internal class GridUnitVisitRegistry
+    internal class AStarNode
     {
-        private readonly Vector2Int _gridPos;
-        public bool visiting = false;
-        public bool fullyVisited = false;
-        private readonly HashSet<Vector2Int> _visited;
-
-        public GridUnitVisitRegistry(Vector2Int gridPos)
+        public Vector2Int Position { get; }
+        public int Cost { get; set; }
+        private int Heuristic { get; }
+        public int TotalCost => Cost + Heuristic;
+    
+        public AStarNode(Vector2Int position, int cost, int heuristic)
         {
-            _gridPos = gridPos;
-            _visited = new HashSet<Vector2Int>();
-        }
-
-        public void VisitLocation(Vector2Int location) => _visited.Add(location);
-        public bool CheckVisitedLocation(Vector2Int location) => _visited.Contains(location);
-
-        public override string ToString()
-        {
-            return $"<{_gridPos}: V:{visiting} | FV:{fullyVisited} | H:{_visited.Count}>";
+            Position = position;
+            Cost = cost;
+            Heuristic = heuristic;
         }
     }
 
@@ -293,57 +287,7 @@ namespace Grid
                 units.AddRange(GridUnitsInLine(position, validRightPosition, validDistance));
             }
         }
-
-        public List<GridUnit> GetBresenhamLine(Vector2Int from, Vector2Int to)
-        {
-            var line = new List<GridUnit>();
-
-            var x0 = from.x;
-            var y0 = from.y;
-            var x1 = to.x;
-            var y1 = to.y;
-
-            var steep = Mathf.Abs(y1 - y0) > Mathf.Abs(x1 - x0);
-            if (steep)
-            {
-                Swap(ref x0, ref y0);
-                Swap(ref x1, ref y1);
-            }
-
-            if (x0 > x1)
-            {
-                Swap(ref x0, ref x1);
-                Swap(ref y0, ref y1);
-            }
-
-            var dx = x1 - x0;
-            var dy = Mathf.Abs(y1 - y0);
-            var error = dx / 2;
-            var yStep = (y0 < y1) ? 1 : -1;
-            var y = y0;
-
-            for (var x = x0; x <= x1; x++)
-            {
-                var point = steep ? new Vector2Int(y, x) : new Vector2Int(x, y);
-                if (GetValidGridPosition(point, out var validPosition))
-                {
-                    line.Add(_grid[validPosition.x, validPosition.y]);
-                }
-
-                error -= dy;
-                if (error >= 0) continue;
-                y += yStep;
-                error += dx;
-            }
-
-            return line;
-
-            void Swap(ref int a, ref int b)
-            {
-                (a, b) = (b, a);
-            }
-        }
-
+        
         private List<GridUnit> GetGridUnitsInRadius(Vector2Int position, int radius, int deadZone = 0)
         {
             var inRadius = new List<GridUnit>();
@@ -372,186 +316,86 @@ namespace Grid
 
             return inRadius;
         }
-
-        //NOTE: use it either as a sort of line of sight or as a "dumb" movement algorithm for the AI ships 
-        public List<GridUnit> GetManhattanLineOfSightFromTo(Vector2Int from, Vector2Int to, int maxSteps,
-            bool checkBlocked = false)
+        
+        public List<GridUnit> GetManhattanPathFromToAStar(Vector2Int from, Vector2Int to, int maxSteps, bool checkBlocked = false)
         {
-            //TODO consider a recursive function instead
-            var pathFromTo = new List<GridUnit>();
-            DebugUtils.DebugLogMsg($"Start Path from [{from}] to [{to}] Manhattan.", DebugUtils.DebugType.Verbose);
-            GetValidGridPosition(from, out var validPosition);
-
-            var steps = maxSteps;
-            var current = validPosition;
-            while (steps >= 0)
+            var openSet = new List<AStarNode>();
+            var closedSet = new HashSet<Vector2Int>();
+            var cameFrom = new Dictionary<Vector2Int, Vector2Int>();
+            
+            var startNode = new AStarNode(from, 0, ManhattanDistance(from, to));
+            openSet.Add(startNode);
+            while (openSet.Count > 0)
             {
-                DebugUtils.DebugLogMsg($"Current step [{current}] [Step: {steps}].", DebugUtils.DebugType.Verbose);
-                var currentUnit = _grid[current.x, current.y];
-                pathFromTo.Add(currentUnit);
-                if (currentUnit.Index() == to)
+                var current = openSet.OrderBy(node => node.TotalCost).First();
+                if (current.Position == to)
                 {
-                    break;
+                    return ReconstructPath(cameFrom, current.Position, from);
                 }
-
-                var possibleMoveOnX =
-                    (current.x != to.x) ? (to.x > current.x ? current.x + 1 : current.x - 1) : current.x;
-                var isValidX = GetValidGridPosition(new Vector2Int(possibleMoveOnX, current.y), out validPosition)
-                               && validPosition != currentUnit.Index()
-                               && (!checkBlocked || _grid[validPosition.x, validPosition.y].Type() !=
-                                   GridUnitType.Blocked);
-                if (isValidX)
+                
+                openSet.Remove(current);
+                closedSet.Add(current.Position);
+                if (current.Cost >= maxSteps)
                 {
-                    current.x = possibleMoveOnX;
-                    --steps;
                     continue;
                 }
-
-                var possibleMoveOnY =
-                    (current.y != to.y) ? (to.y > current.y ? current.y + 1 : current.y - 1) : current.y;
-                var isValidY = GetValidGridPosition(new Vector2Int(current.x, possibleMoveOnY), out validPosition)
-                               && validPosition != currentUnit.Index()
-                               && (!checkBlocked || _grid[validPosition.x, validPosition.y].Type() !=
-                                   GridUnitType.Blocked);
-                if (isValidY)
+                Vector2Int[] moves = { new(-1, 0), new(1, 0), new(0, -1), new(0, 1) };
+                
+                foreach (var move in moves)
                 {
-                    current.y = possibleMoveOnY;
-                    --steps;
-                    continue;
+                    var neighborPos = current.Position + move;
+                    if (!GetValidGridPosition(neighborPos, out var validPos) || closedSet.Contains(validPos))
+                    {
+                        continue;
+                    }
+                    if (checkBlocked)
+                    {
+                        var neighborUnit = _grid[validPos.x, validPos.y];
+                        if (neighborUnit.Type() == GridUnitType.Blocked)
+                        {
+                            continue;
+                        }
+                    }
+                    var tentativeG = current.Cost + 1;
+                    var existingNode = openSet.FirstOrDefault(n => n.Position == validPos);
+                    if (existingNode != null && tentativeG >= existingNode.Cost) continue;
+                    if (existingNode == null)
+                    {
+                        var hCost = ManhattanDistance(validPos, to);
+                        var newNode = new AStarNode(validPos, tentativeG, hCost);
+                        openSet.Add(newNode);
+                    }
+                    else
+                    {
+                        existingNode.Cost = tentativeG;
+                    }
+                    cameFrom[validPos] = current.Position;
                 }
-
-                DebugUtils.DebugLogMsg($"Could not find path from {from} to {to} [currently at {current}].",
-                    DebugUtils.DebugType.Error);
-                break;
             }
-
-            return pathFromTo;
-        }
-
-        public List<GridUnit> GetManhattanPathFromToRecursive(Vector2Int from, Vector2Int to, int maxSteps,
-            bool checkBlocked = false)
-        {
-            var pathFromTo = new List<GridUnit>();
-            var visited = new List<GridUnitVisitRegistry>();
-            var success = FindPathRecursive(from, maxSteps);
-
-            if (success)
-            {
-                return pathFromTo;
-            }
-
+            
+            // No path found
             DebugUtils.DebugLogMsg($"Could not find path from {from} to {to}.", DebugUtils.DebugType.Error);
             return new List<GridUnit>();
-
-            bool FindPathRecursive(Vector2Int current, int remainingSteps)
+            
+            List<GridUnit> ReconstructPath(Dictionary<Vector2Int, Vector2Int> unitCameFrom, Vector2Int current, Vector2Int start)
             {
-                // Add current position to path
-                var currentUnit = _grid[current.x, current.y];
-                pathFromTo.Add(currentUnit);
-                var visitRegistry = new GridUnitVisitRegistry(currentUnit.Index())
+                var path = new List<GridUnit>();
+                while (current != start)
                 {
-                    visiting = true
-                };
-                visited.Add(visitRegistry);
-
-                DebugUtils.DebugLogMsg(
-                    $"FPR Current step [{currentUnit.Index()}] [Path Size: {pathFromTo.Count}, Hash Size: {visited.Count}] [Steps: {remainingSteps}].",
-                    DebugUtils.DebugType.Verbose);
-
-                // Check if we reached target
-                if (current == to)
-                {
-                    DebugUtils.DebugLogMsg(
-                        $"FPR Current {current} equal To {to}. Target reached!",
-                        DebugUtils.DebugType.Verbose);
-                    return true;
+                    path.Add(_grid[current.x, current.y]);
+                    current = unitCameFrom[current];
                 }
-
-                // Check if we have steps remaining
-                if (remainingSteps < 0)
-                {
-                    pathFromTo.RemoveAt(pathFromTo.Count - 1); // Backtrack
-                    DebugUtils.DebugLogMsg(
-                        $"FPR Early Backtracking! No more valid steps!",
-                        DebugUtils.DebugType.Verbose);
-                    return false;
-                }
-
-                // Try both X and Y directions
-                Vector2Int[] moves =
-                {
-                    new(-1, 0),
-                    new(1, 0),
-                    new(0, -1),
-                    new(0, 1)
-                };
-
-                // Try both moves in a smart order (prioritize the direction with larger difference)
-                var xFirst = Mathf.Abs(to.x - current.x) > Mathf.Abs(to.y - current.y);
-                if (xFirst)
-                {
-                    // ReSharper disable once ForCanBeConvertedToForeach
-                    // ReSharper disable once LoopCanBeConvertedToQuery
-                    for (var i = 0; i < moves.Length; i++)
-                        if (TryMove(currentUnit, current, moves[i], visitRegistry, remainingSteps))
-                        {
-                            return true;
-                        }
-                }
-                else
-                {
-                    for (var i = moves.Length - 1; i > -1; i--)
-                        if (TryMove(currentUnit, current, moves[i], visitRegistry, remainingSteps))
-                        {
-                            return true;
-                        }
-                }
-
-                visitRegistry.fullyVisited = true;
-
-                // If no moves work, backtrack
-                pathFromTo.RemoveAt(pathFromTo.Count - 1);
-                DebugUtils.DebugLogMsg(
-                    $"FPR Late Backtracking!",
-                    DebugUtils.DebugType.Verbose);
-                return false;
-            }
-
-            bool TryMove(GridUnit currentUnit, Vector2Int current, Vector2Int move, GridUnitVisitRegistry registry,
-                int remainingSteps)
-            {
-                if (move == Vector2Int.zero) return false;
-                var next = current + move;
-                if (registry.CheckVisitedLocation(move))
-                {
-                    //Already checked this direction
-                    DebugUtils.DebugLogMsg(
-                        $"Cannot move to {next} - registry states that this move has already been fully visited.",
-                        DebugUtils.DebugType.Verbose);
-                    return false;
-                }
-
-                registry.VisitLocation(move);
-                var isValidPosition = GetValidGridPosition(next, out var validPosition);
-                // Check if the move is valid
-                if (isValidPosition)
-                {
-                    var nextUnit = _grid[validPosition.x, validPosition.y];
-                    DebugUtils.DebugLine(currentUnit.transform.position, nextUnit.transform.position, Color.black);
-                    var unblockedMovement = (!checkBlocked || nextUnit.Type() != GridUnitType.Blocked);
-                    if (!registry.fullyVisited && unblockedMovement)
-                    {
-                        return FindPathRecursive(validPosition, remainingSteps - 1);
-                    }
-                }
-
-                DebugUtils.DebugLogMsg(
-                    $"Cannot move to {next} - is valid position {isValidPosition}? was visited {registry}? ",
-                    DebugUtils.DebugType.Verbose);
-                return false;
+                path.Add(_grid[start.x, start.y]);
+                path.Reverse();
+                return path;
             }
         }
-
+        
+        private static int ManhattanDistance(Vector2Int a, Vector2Int b)
+        {
+            return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
+        }
+        
         public Sprite GetSpriteForType(GridUnitType type)
         {
             return type switch

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Actors;
 using Grid;
 using NaughtyAttributes;
+using TMPro;
 using UI;
 using UnityEngine;
 using UUtils;
@@ -42,6 +43,7 @@ namespace Core
 
         [SerializeField] private ActorTurnUI actorTurnUIPrefab;
         [SerializeField] private EndLevelPanelUI endLevelPanelUI;
+        [SerializeField] private TextMeshProUGUI levelGoalText;
 
         private Coroutine _levelCoroutine;
         private NavalActor _currentActor;
@@ -61,6 +63,7 @@ namespace Core
 
             //Initialize level goal elements
             levelGoal.Initialize(levelActors);
+            levelGoalText.text = levelGoal.GetLevelMessage();
 
             //Roll initiatives and order turns
             _levelActionableActor.ForEach(actorPair => actorPair.One.RollInitiative());

@@ -739,7 +739,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UI.EndLevelPanelUI
   endLevelText: {fileID: 8926411059059503231}
-  mainMenuScene: SampleScene
+  mainMenuScene: MenuScene
   firstButton: {fileID: 6632252817309887160}
 --- !u!1 &3986105652292107810
 GameObject:
@@ -1262,7 +1262,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 8, y: -8}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 800, y: 50}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &1602652418830705632
 CanvasRenderer:
@@ -1319,8 +1319,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1832,6 +1832,7 @@ MonoBehaviour:
   actorTurnsHolder: {fileID: 4692900238076265019}
   actorTurnUIPrefab: {fileID: -1617867583042874006, guid: 9c238bb53b36f44568f48311cc7362a6, type: 3}
   endLevelPanelUI: {fileID: 8448852345309879333}
+  levelGoalText: {fileID: 6101326321233279750}
 --- !u!1 &7844259365899479518
 GameObject:
   m_ObjectHideFlags: 0

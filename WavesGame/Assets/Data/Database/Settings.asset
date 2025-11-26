@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Core.GameManagerSettings
   enabledDebugTypes: 27
   debugCursorInformation: 1
-  alwaysIgnoreWaves: 0
+  alwaysIgnoreWaves: 1
   alwaysHitByWaves: 0

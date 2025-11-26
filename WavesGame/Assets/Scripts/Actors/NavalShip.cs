@@ -65,9 +65,10 @@ namespace Actors
             if (animate)
             {
                 var steps = GridManager.GetSingleton()
-                    .GetManhattanPathFromToRecursive(GetUnit().Index(), unit.Index(), _stepsAvailable,
+                    .GetManhattanPathFromToAStar(GetUnit().Index(), unit.Index(), _stepsAvailable,
                         true);
 
+                
                 if (steps.Count == 0)
                 {
                     DebugUtils.DebugLogMsg("Path not found! Stay in the same position.", DebugUtils.DebugType.Error);

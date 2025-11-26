@@ -24,7 +24,7 @@ namespace Grid
 
         private void Start()
         {
-            GridManager.GetSingleton().AddGridUnit(this);
+            GridManager.GetSingleton()?.AddGridUnit(this);
         }
 
         public void DisplayWalkingVisuals()
