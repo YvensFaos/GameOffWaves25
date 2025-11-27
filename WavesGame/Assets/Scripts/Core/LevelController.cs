@@ -99,6 +99,9 @@ namespace Core
                         var turnUI = GetActorTurnUI(navalShip);
                         turnUI.ToggleAvailability(true);
                         navalShip.StartTurn();
+                        //move the cursor to the ship
+                        CursorController.GetSingleton().MoveToIndex(navalShip.GetUnit().Index());
+                        
                         yield return new WaitUntil(() => _endTurn);
                         //Check if the naval ship was not destroyed during its own turn.
                         if (navalShip == null) continue;
@@ -111,6 +114,7 @@ namespace Core
                     }
                     else
                     {
+                        //TODO create the logic for non-player _endTurn logic
                         yield return new WaitUntil(() => _endTurn);
                     }
                 }
