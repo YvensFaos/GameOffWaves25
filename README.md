@@ -1,6 +1,31 @@
+![Made with Unity](https://img.shields.io/badge/Made%20with-Unity-57b9d3.svg?logo=unity)
+[![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
+
 # Waves - Grid Framework
 
-Framework for grid-based turn-based tactic games.
+> 🚧 **Note**: This framework is currently under active development alongside a demo game that showcases usage examples.
+
+Welcome to Waves - Grid Framework. Waves is a simple grid-based system for Unity that can be used to make turn-based tactics games, such as Final Fantasy Tactics (PSOne), Fire Emblem (SNES, GBA), and Advaced Wars (GBA).
+
+
+## Features:
+- Grid tile movement based on 2D Tilemaps
+- Actor navigation using A*
+- **Grid Management**: 2D Tilemap-based grid system with customizable dimensions
+- **Pathfinding**: A* algorithm for optimal actor navigation
+- **Turn Management**: Built-in systems for turn-based gameplay flow
+- **Actor System**: Flexible actor management with scriptable object based stats
+- **Movement Range**: Calculate valid movement areas based on actor capabilities
+- **Attack Range**: Allow actor attack in their valid range
+- **Terrain Effect**: Allow placement of effects on tiles to activate when actors step on them
+
+## Upcoming Features/Issues:
+For further development, please use the Issues page.
+
+
+## Dependencies:
+This project uses the [UUTils](https://github.com/YvensFaos/UUtils) repository as a submodule for additional utility functions such as debugging, singleton functionalities, and other project agnostic features.
+
 
 ## License
 
