@@ -47,7 +47,8 @@ namespace Core
                 case CursorState.ShowingOptions: //Nothing to do
                     break;
                 case CursorState.Targeting:
-                    if (_cursorController.TargetSelectedGridUnit(unit))
+                    var canAttackTarget = _cursorController.TargetSelectedGridUnit(unit);
+                    if (canAttackTarget)
                     {
                         var index = _currentGridUnit.Index();
                         DebugUtils.DebugLogMsg($"Going to position {index}.", DebugUtils.DebugType.Verbose);

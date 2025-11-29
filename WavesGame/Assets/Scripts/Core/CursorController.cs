@@ -127,6 +127,10 @@ namespace Core
             _selectedActor = navalActor;
         }
 
+        /// <summary>
+        /// Shows the walkable options for the unit and open the UI for the actor options.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public void ShowOptionsForSelectedActor()
         {
             //Show the options; for now, just show the valid positions
@@ -137,7 +141,6 @@ namespace Core
                 case NavalActorType.Player:
                 {
                     ShowWalkablePathForUnit();
-                    //TODO
                     var isCurrentTurnPlayer = LevelController.GetSingleton().IsCurrentActor(_selectedActor);
                     navalShipOptionsPanel.ShowOptions(isCurrentTurnPlayer);
                 }
@@ -257,13 +260,10 @@ namespace Core
             }
 
             enumerator.Dispose();
+            if (!attackHappened || _selectedActor is not NavalShip selectedNavalShip) return attackHappened;
+            selectedNavalShip.TryToAct();
             HideAttackArea();
-            if (attackHappened && _selectedActor is NavalShip selectedNavalShip)
-            {
-                selectedNavalShip.TryToAct();
-            }
-
-            return attackHappened;
+            return true;
         }
 
         /// <summary>
