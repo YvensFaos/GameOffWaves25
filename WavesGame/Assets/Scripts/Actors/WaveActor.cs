@@ -16,6 +16,7 @@ using UUtils;
 namespace Actors
 {
     #region WaveDirectionSprite
+
     [Serializable]
     public class WaveDirectionSprite : Pair<GridMoveType, Sprite>
     {
@@ -23,6 +24,7 @@ namespace Actors
         {
         }
     }
+
     #endregion
 
     public class WaveActor : GridActor
@@ -57,13 +59,14 @@ namespace Actors
             {
                 damageParticles.Play();
             }
+
             var attackArea = GridManager.GetSingleton()
                 .GetGridUnitsForMoveType(waveDirection, GetUnit().Index(), areaOfEffect);
             attackArea.ForEach(unit =>
             {
                 if (unit.ActorsCount() > 0)
                 {
-                    unit.DamageActors(damage);    
+                    unit.DamageActors(damage);
                 }
                 else
                 {
@@ -76,19 +79,26 @@ namespace Actors
             });
         }
 
+        public List<GridUnit> GetUnitsAffectedByWaveAttack()
+        {
+            return GridManager.GetSingleton().GetGridUnitsForMoveType(waveDirection, GetUnit().Index(), areaOfEffect);
+        }
+
         public override GridStepEffectResult StepEffect(GridActor stepper)
         {
             var pushArea = GridManager.GetSingleton()
                 .GetGridUnitsForMoveType(waveDirection, GetUnit().Index(), stepAreaDistance);
             //From the places to push the actor, get all of them that are not blocked (i.e., that the actor can be move to).
             var pushUnblockedArea = pushArea.FindAll(unit => unit.Type() != GridUnitType.Blocked);
-            
+
             //If there are no valid places to push, ignore the step effect, cause damage and block movement from proceeding.
             if (pushUnblockedArea.Count == 0) return new GridStepEffectResult(false, null, true, waveDamage);
-            
+
             //Gets a random position from the list of pushable spaces.
             var pushTo = RandomHelper<GridUnit>.GetRandomFromList(pushUnblockedArea);
             return new GridStepEffectResult(false, pushTo, true, waveDamage);
         }
+
+        public float GetDamage() => waveDamage;
     }
 }

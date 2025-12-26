@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2025 Yvens R Serpa [https://github.com/YvensFaos/]
- * 
+ *
  * This work is licensed under the Creative Commons Attribution 4.0 International License.
  * To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0/
  * or see the LICENSE file in the root directory of this repository.
@@ -15,6 +15,17 @@ namespace Actors.AI
 {
     public class AINavalShip : NavalShip
     {
+        [SerializeField] private AIGenesSO genesData;
+        [SerializeField] private AIFaction faction;
+
+        private AIBrain _brain;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            _brain = new AIBrain(this, navalCannon.GetCannonSo);
+        }
+
         public override void StartTurn()
         {
             base.StartTurn();
@@ -36,8 +47,36 @@ namespace Actors.AI
 
         private IEnumerator TurnAI()
         {
-            yield return new WaitForSeconds(2.0f);
-            FinishAITurn();
+            yield return new WaitForSeconds(0.5f);
+
+            var canCalculateMove = _brain.CalculateMovement(currentUnit.Index(), stepsAvailable, out var chosenAction);
+            if (canCalculateMove)
+            {
+                DebugUtils.DebugLogMsg($"{name} has selected action {chosenAction}.", DebugUtils.DebugType.System);
+                MoveTo(chosenAction.GetUnit(), unit =>
+                {
+                    //Use all actions
+                    while (TryToAct())
+                    {
+                        var canCalculateAction = _brain.CalculateAction(currentUnit.Index(), out chosenAction);
+                        if (!canCalculateAction) continue;
+                        DebugUtils.DebugLogMsg($"{name} attacks {chosenAction}!", DebugUtils.DebugType.System);
+                        var damage = CalculateDamage();
+                        var targetUnit = chosenAction.GetUnit();
+                        targetUnit.DamageActors(damage);
+                    }
+
+                    FinishAITurn();
+                }, true);
+            }
+            else
+            {
+                var moveTo = AIBrain.GenerateRandomMovement(currentUnit.Index(), stepsAvailable);
+                MoveTo(moveTo, unit => { FinishAITurn(); }, true);
+            }
         }
+
+        public AIFaction GetFaction() => faction;
+        public AIGenesSO GetGenesData() => genesData;
     }
 }

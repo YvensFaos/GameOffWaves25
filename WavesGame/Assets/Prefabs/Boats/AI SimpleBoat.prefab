@@ -65,6 +65,8 @@ MonoBehaviour:
   spriteRenderer: {fileID: 386411791612610567}
   shipData: {fileID: 11400000, guid: 43f494d61b5cd48f28f7a6eff95158d6, type: 2}
   navalCannon: {fileID: 7889225319036759644}
+  genesData: {fileID: 11400000, guid: cee14c0b324364f2ebc98f9725f1de87, type: 2}
+  faction: {fileID: 11400000, guid: cfb967da26c2946d89664483c5a76968, type: 2}
 --- !u!114 &7889225319036759644
 MonoBehaviour:
   m_ObjectHideFlags: 0

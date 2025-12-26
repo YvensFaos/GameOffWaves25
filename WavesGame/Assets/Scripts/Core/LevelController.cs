@@ -114,6 +114,7 @@ namespace Core
                         //Check if the naval ship was not destroyed during its own turn.
                         if (navalShip == null) continue;
                         navalShip.EndTurn();
+                        
                         //TODO check if this is necessary of it maybe this has been destroyed already
                         if (enumerator.Current is { Two: true })
                         {
@@ -150,7 +151,6 @@ namespace Core
             }
 
             FinishLevel(victory);
-            //TODO Level ended
         }
 
         /// <summary>

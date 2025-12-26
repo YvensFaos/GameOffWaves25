@@ -22,11 +22,11 @@ namespace Actors
     public class NavalShip : NavalActor, IComparable<NavalShip>
     {
         [SerializeField] private SpriteRenderer spriteRenderer;
-        [SerializeField] private NavalShipSo shipData;
-        [SerializeField] private BaseCannon navalCannon;
+        [SerializeField] protected NavalShipSo shipData;
+        [SerializeField] protected BaseCannon navalCannon;
 
         private int _actions;
-        private int _stepsAvailable;
+        protected int stepsAvailable;
 
         protected override void Awake()
         {
@@ -38,7 +38,7 @@ namespace Actors
         {
             //Reset turn variables
             _actions = shipData.stats.spirit.Two;
-            _stepsAvailable = shipData.stats.speed.Two;
+            stepsAvailable = shipData.stats.speed.Two;
         }
 
         public virtual void EndTurn()
@@ -80,7 +80,7 @@ namespace Actors
             if (animate)
             {
                 var steps = GridManager.GetSingleton()
-                    .GetManhattanPathFromToAStar(GetUnit().Index(), unit.Index(), _stepsAvailable,
+                    .GetManhattanPathFromToAStar(GetUnit().Index(), unit.Index(), stepsAvailable,
                         true);
 
                 
@@ -93,7 +93,7 @@ namespace Actors
                 }
                 
                 var stepsCount = steps.Count - 1; //Removes the initial (current) step from the movement count.
-                _stepsAvailable = Mathf.Max(_stepsAvailable - stepsCount, 0);
+                stepsAvailable = Mathf.Max(stepsAvailable - stepsCount, 0);
                 
                 if (steps.Count <= 0)
                 {
@@ -181,7 +181,7 @@ namespace Actors
 
         public NavalShipSo ShipData => shipData;
         public BaseCannon NavalCannon => navalCannon;
-        public int RemainingSteps => _stepsAvailable;
+        public int RemainingSteps => stepsAvailable;
         public int Initiative { get; private set; }
         public int ActionsLeft => _actions;
         public SpriteRenderer Renderer() => spriteRenderer;
