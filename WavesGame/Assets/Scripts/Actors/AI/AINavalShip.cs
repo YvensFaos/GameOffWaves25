@@ -61,8 +61,9 @@ namespace Actors.AI
                         var canCalculateAction = _brain.CalculateAction(currentUnit.Index(), out chosenAction);
                         if (!canCalculateAction) continue;
                         DebugUtils.DebugLogMsg($"{name} attacks {chosenAction}!", DebugUtils.DebugType.System);
-                        var damage = CalculateDamage();
                         var targetUnit = chosenAction.GetUnit();
+                        if(targetUnit.ActorsCount() <= 0) continue;
+                        var damage = CalculateDamage();
                         targetUnit.DamageActors(damage);
                     }
 
