@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
+using UUtils;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -125,6 +126,16 @@ namespace Grid
             {
                 gridActor.TakeDamage(damage);
             }
+        }
+
+        public override string ToString()
+        {
+            return $"{name} {Index()}";
+        }
+
+        private void OnDestroy()
+        {
+            DebugUtils.DebugLogMsg($"{this} destroyed!", DebugUtils.DebugType.System);
         }
 
         public GridUnitType Type() => currentType;

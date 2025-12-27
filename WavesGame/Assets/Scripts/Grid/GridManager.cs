@@ -177,7 +177,7 @@ namespace Grid
                 }
 
                 visited.Add(gridUnit);
-                DebugUtils.DebugLogMsg($"Check node - {gridUnit.Index()} [{visited.Count}].",
+                DebugUtils.DebugLogMsg($"Check node - {gridUnit} [{visited.Count}].",
                     DebugUtils.DebugType.Verbose);
 
                 var index = gridUnit.Index();
@@ -193,7 +193,7 @@ namespace Grid
                 if (!firstUnit && gridUnit.Type() == GridUnitType.Blocked) continue;
                 inRadius.Add(gridUnit);
 
-                DebugUtils.DebugLogMsg($"Visiting next nodes from {gridUnit.Index()} [{visited.Count}].",
+                DebugUtils.DebugLogMsg($"Visiting next nodes from {gridUnit} [{visited.Count}].",
                     DebugUtils.DebugType.Verbose);
                 var newRadius = currentRadius - 1;
                 VisitNextNodeAt(new Vector2Int(index.x, index.y + 1), newRadius);

@@ -190,8 +190,14 @@ namespace Core
             var cannonData = cannon.GetCannonSo;
             _walkableUnits = GridManager.GetSingleton().GetGridUnitsForMoveType(cannonData.targetAreaType, index,
                 cannonData.area, cannonData.deadZone);
+            
             _walkableUnits.ForEach(unit =>
             {
+                if (unit == null)
+                {
+                    DebugUtils.DebugLogErrorMsg("Invalid unit while checking _walkableUnits.");
+                    return;
+                }
                 unit.DisplayTargetingVisuals();
                 var unitActor = unit.GetActor();
                 if (unitActor == null) return;

@@ -45,7 +45,8 @@ namespace Actors.AI
             utilities.Sort();
             var possibleActionsCount = Mathf.Min(utilities.Count, _aiNavalShip.GetGenesData().possibleActionsCount);
             var possibleActions = utilities.GetRange(0, possibleActionsCount);
-            chosenAction = RandomHelper<AIGridUnitUtility>.GetRandomFromList(possibleActions);
+            chosenAction = RandomHelper<AIGridUnitUtility>.GetRandomFromListWithIndex(possibleActions, out var index);
+            DebugUtils.DebugLogMsg($"Action {index}-: {chosenAction} chosen.", DebugUtils.DebugType.Regular);
             return true;
         }
 
@@ -71,7 +72,8 @@ namespace Actors.AI
             utilities.Sort();
             var possibleActionsCount = Mathf.Min(utilities.Count, _aiNavalShip.GetGenesData().possibleActionsCount);
             var possibleActions = utilities.GetRange(0, possibleActionsCount);
-            chosenAction = RandomHelper<AIGridUnitUtility>.GetRandomFromList(possibleActions);
+            chosenAction = RandomHelper<AIGridUnitUtility>.GetRandomFromListWithIndex(possibleActions, out var index);
+            DebugUtils.DebugLogMsg($"Action {index}-: {chosenAction} chosen.", DebugUtils.DebugType.Regular);
             return true;
         }
 
