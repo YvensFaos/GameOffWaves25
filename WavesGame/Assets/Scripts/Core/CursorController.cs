@@ -195,7 +195,7 @@ namespace Core
             {
                 if (unit == null)
                 {
-                    DebugUtils.DebugLogErrorMsg("Invalid unit while checking _walkableUnits.");
+                    DebugUtils.DebugLogErrorMsg("Invalid unit on the list. Check if the tilemap generated the correct prefab!");
                     return;
                 }
                 unit.DisplayTargetingVisuals();
@@ -215,6 +215,11 @@ namespace Core
             }
             _walkableUnits?.ForEach(unit =>
             {
+                if (unit == null)
+                {
+                    DebugUtils.DebugLogErrorMsg("Invalid unit on the list. Check if the tilemap generated the correct prefab!");
+                    return;
+                }
                 unit.HideVisuals();
                 var unitActor = unit.GetActor();
                 if (unitActor == null) return;
