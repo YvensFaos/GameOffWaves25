@@ -30,23 +30,55 @@ namespace Actors.AI
         {
             var walkableUnits = GridManager.GetSingleton().GetGridUnitsInRadiusManhattan(position, stepsAvailable);
             var utilities = new List<AIGridUnitUtility>();
+            var genes = _aiNavalShip.GetGenesData();
 
+            //First calculate all possible movements
             foreach (var unit in walkableUnits)
             {
                 var gridUnitUtility = new AIGridUnitUtility(unit);
+                //Calculate the utility of moving to a given position
+                var movementUtility = AIGridUnitUtility.CalculateUtilityToMoveToGridUnit(_aiNavalShip, unit);
+                var awarenessUtility = 0.0f;
+                var attackUtility = 0.0f;
+                    
+                //Then calculate the utility of the surroundings of the given position
+                var awarenessRadius = Mathf.FloorToInt(genes.awareness);
+                if (awarenessRadius >= 1)
+                {
+                    var awarenessUnits = GridManager.GetSingleton()
+                        .GetGridUnitsInRadiusManhattan(unit.Index(), awarenessRadius);
+                    //Remove self position
+                    awarenessUnits.Remove(unit);
+                    awarenessUnits.ForEach(awarenessUnit =>
+                    {
+                        awarenessUtility += AIGridUnitUtility.CalculateProximityUtility(_aiNavalShip, awarenessUnit);
+                    });
+                }
+                
+                //Finally, calculate the utilities of attacking from this position
                 var attackableFromUnit = GridManager.GetSingleton().GetGridUnitsForMoveType(_cannonData.targetAreaType,
                     unit.Index(), _cannonData.area, _cannonData.deadZone);
-                gridUnitUtility.CalculateUtility(_aiNavalShip, attackableFromUnit);
+                if (attackableFromUnit.Count >= 0)
+                {
+                    //Remove self position
+                    attackableFromUnit.Remove(unit);
+                    attackableFromUnit.ForEach(attackUnit =>
+                    {
+                        attackUtility += AIGridUnitUtility.CalculatePossibleAttackUtility(_aiNavalShip, attackUnit);
+                    });
+                }
+                
+                gridUnitUtility.Utility = movementUtility + awarenessUtility + attackUtility;
                 utilities.Add(gridUnitUtility);
             }
 
             chosenAction = null;
             if (utilities.Count == 0) return false;
             utilities.Sort();
-            var possibleActionsCount = Mathf.Min(utilities.Count, _aiNavalShip.GetGenesData().possibleActionsCount);
+            var possibleActionsCount = Mathf.Min(utilities.Count, genes.possibleActionsCount);
             var possibleActions = utilities.GetRange(0, possibleActionsCount);
             chosenAction = RandomHelper<AIGridUnitUtility>.GetRandomFromListWithIndex(possibleActions, out var index);
-            DebugUtils.DebugLogMsg($"Action {index}-: {chosenAction} chosen.", DebugUtils.DebugType.Regular);
+            DebugUtilityChoices(chosenAction, index, utilities);
             return true;
         }
 
@@ -58,13 +90,12 @@ namespace Actors.AI
             
             if(attackableFromUnit == null || attackableFromUnit.Count == 0) return false;
 
-            var genes = _aiNavalShip.GetGenesData();
-            var faction = _aiNavalShip.GetFaction();
             var utilities = new List<AIGridUnitUtility>();
             foreach (var unit in attackableFromUnit)
             {
                 var gridUnitUtility = new AIGridUnitUtility(unit);
-                var utility = gridUnitUtility.CalculateUtilityForGridUnit(_aiNavalShip, unit, genes, faction);
+                var utility = AIGridUnitUtility.CalculateAttackUtility(_aiNavalShip, unit);
+                if (Mathf.Approximately(utility, float.MinValue)) continue;
                 gridUnitUtility.Utility = utility;
                 utilities.Add(gridUnitUtility);
             }
@@ -73,7 +104,7 @@ namespace Actors.AI
             var possibleActionsCount = Mathf.Min(utilities.Count, _aiNavalShip.GetGenesData().possibleActionsCount);
             var possibleActions = utilities.GetRange(0, possibleActionsCount);
             chosenAction = RandomHelper<AIGridUnitUtility>.GetRandomFromListWithIndex(possibleActions, out var index);
-            DebugUtils.DebugLogMsg($"Action {index}-: {chosenAction} chosen.", DebugUtils.DebugType.Regular);
+            DebugUtilityChoices(chosenAction, index, utilities);
             return true;
         }
 
@@ -81,6 +112,19 @@ namespace Actors.AI
         {
             var walkableUnits = GridManager.GetSingleton().GetGridUnitsInRadiusManhattan(position, stepsAvailable);
             return RandomHelper<GridUnit>.GetRandomFromList(walkableUnits);
+        }
+        
+        
+        private static void DebugUtilityChoices(AIGridUnitUtility chosenAction, int index, List<AIGridUnitUtility> utilities)
+        {
+            //TODO block this when building
+            
+            
+            DebugUtils.DebugLogMsg($"Action {index}/{utilities.Count}: {chosenAction} chosen.", DebugUtils.DebugType.Regular);
+            for (var i = 0; i < Mathf.Min(5, utilities.Count); i++)
+            {
+                DebugUtils.DebugLogMsg($"Utils => {i} {utilities[i]}", DebugUtils.DebugType.Regular);
+            }
         }
     }
 }
