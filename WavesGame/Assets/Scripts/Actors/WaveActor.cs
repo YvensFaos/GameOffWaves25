@@ -131,6 +131,7 @@ namespace Actors
             return new GridStepEffectResult(false, pushTo, true, waveDamage);
         }
 
+        //TODO
         private void RecordDamage(int damage)
         {
             //TODO
@@ -139,6 +140,7 @@ namespace Actors
             //     LevelController.GetSingleton().GetTimeStamp()));
         }
 
+        //TODO
         private void RecordAttack(GridActor targetActor, int damage)
         {
             //TODO
@@ -154,8 +156,10 @@ namespace Actors
         }
 
         public float GetDamage() => waveDamage;
+        public int GetAreaOfEffect() => areaOfEffect;
+        public int GetStepAreaDistance() => stepAreaDistance;
         public GridMoveType GetWaveDirection => waveDirection;
-
+        
         public override string ToString()
         {
             return

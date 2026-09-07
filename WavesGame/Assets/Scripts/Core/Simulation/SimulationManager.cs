@@ -96,7 +96,7 @@ namespace Core.Simulation
                 DebugUtils.DebugType.System);
 
             var placeholders =
-                FindObjectsByType<PlaceholderActor>(FindObjectsInactive.Include, FindObjectsSortMode.InstanceID)
+                FindObjectsByType<PlaceholderActor>(FindObjectsInactive.Include)
                     .ToList();
             DebugUtils.DebugLogMsg($"Placeholders found: {placeholders.Count}!", DebugUtils.DebugType.System);
             placeholders.Sort();
@@ -163,10 +163,16 @@ namespace Core.Simulation
                 _wavesRecorder = Instantiate(wavesRecorderPrefab, transform);
                 var maxTurns = levelGoal.GetMaxTurns();
                 var navalActors = navalShips.Cast<NavalActor>().ToList();
+
+                var waveActors =
+                    FindObjectsByType<WaveActor>(FindObjectsInactive.Exclude)
+                        .ToList();
+
                 var recordingIdentifier =
                     $"{simulation.BattleGroundScene}-{simulationController.GetLevelMessageAndTime()}-iteration[{iterationNumber}]";
                 DebugUtils.DebugLogMsg($"Starting recording...", DebugUtils.DebugType.System);
                 _wavesRecorder.LogGameStart(simulation.BattleGroundScene, simulationSeed, maxTurns, navalActors,
+                    waveActors,
                     recordingIdentifier);
             }
 

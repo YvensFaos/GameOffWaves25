@@ -11,7 +11,7 @@ namespace Core.Recorder
     public class NavalActorEntryJson
     {
         [SerializeField] public string name;
-        [SerializeField] public int startingHealth;
+        [SerializeField] public int currentHealth;
         [SerializeField] public string shipPrefabType;
         [SerializeField] public string faction;
         [SerializeField] public string shipData;
@@ -39,7 +39,7 @@ namespace Core.Recorder
         public NavalActorEntryJson(NavalActor navalActor)
         {
             name = navalActor.name;
-            startingHealth = navalActor.GetCurrentHealth();
+            currentHealth = navalActor.GetCurrentHealth();
             var shipType = navalActor.GetType();
             shipPrefabType = shipType.Name;
             position = new SimpleVector2Int(navalActor.GetUnit().Index());
