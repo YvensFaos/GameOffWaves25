@@ -161,7 +161,8 @@ namespace Actors.AI.LlmAI
             }
 
             DebugUtils.DebugLogMsg(actions.reasoning, DebugUtils.DebugType.System);
-
+            RecordReasoning(actions.reasoning);
+            
             var shouldMove = false;
             var shouldAttack = false;
             var shouldMoveAfterAttack = false;
@@ -276,6 +277,13 @@ namespace Actors.AI.LlmAI
             if (!WavesRecorder.TryToGetSingleton(out var recorder)) return;
             var command = new CommandRecordEntry(name, GetFaction(), movement, attack, moveAfterAttack);
             recorder.RecordNewEntry(command);
+        }
+
+        private void RecordReasoning(string reasoning)
+        {
+            if (!WavesRecorder.TryToGetSingleton(out var recorder)) return;
+            var reason = new ReasoningRecordEntry(name, GetFaction(), reasoning);
+            recorder.RecordNewEntry(reason);
         }
 
         private void RecordInvalidResponse(InvalidResponseType type, string message)
