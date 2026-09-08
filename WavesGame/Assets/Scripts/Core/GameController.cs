@@ -143,6 +143,12 @@ namespace Core
             if (!WavesRecorder.TryToGetSingleton(out var recorder)) return;
             recorder.RecordNewEntry(new StateRecordEntry(actors));
         }
+
+        protected void RecordScenario(GridManager gridManager)
+        {
+            if (!WavesRecorder.TryToGetSingleton(out var recorder)) return;
+            recorder.RecordNewEntry(new ScenarioEntry(gridManager));
+        }
         
         public string GetLevelMessageAndTime()
         {

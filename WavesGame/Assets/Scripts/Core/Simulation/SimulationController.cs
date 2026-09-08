@@ -93,14 +93,14 @@ namespace Core.Simulation
             {
                 turnText.text = $"Turn = {turnManager.GetTurnNumber()}";
             }
-            
-            //TODO read the scenario
-            var gridManager = GridManager.GetSingleton();
-            
 
             //Start level
             var enumerator = levelActionableActors.GetEnumerator();
             var continueLevel = true;
+            
+            var gridManager = GridManager.GetSingleton();
+            RecordScenario(gridManager);
+            
             while (continueLevel && running)
             {
                 //There are no actors left. Finish the level cycle.
@@ -144,6 +144,7 @@ namespace Core.Simulation
                     {
                         yield return new WaitUntil(() => endTurn);
                     }
+                    RecordScenario(gridManager);
                 }
 
                 enumerator.Dispose();

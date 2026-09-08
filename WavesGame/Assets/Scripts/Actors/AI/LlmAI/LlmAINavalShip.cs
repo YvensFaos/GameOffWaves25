@@ -84,7 +84,7 @@ namespace Actors.AI.LlmAI
             yield return new WaitForSeconds(requestTimeOutTimer);
             DebugUtils.DebugLogMsg($"Request Timer Finished.", DebugUtils.DebugType.System);
 
-            var prompt = LlmAiPromptGenerator.GeneratePrompt(this, basePrompt, enemyFactions);
+            var prompt = LlmAIPromptGenerator.GeneratePrompt(this, basePrompt, enemyFactions);
             DebugUtils.DebugLogMsg(prompt, DebugUtils.DebugType.Temporary);
 
             var retry = true;

@@ -15,6 +15,7 @@ namespace Core.Recorder
         public StateRecordEntryJson(string eventType, int turn, long timeStamp, List<NavalActor> navalActors)
             : base(eventType, turn, timeStamp)
         {
+            navalActors = navalActors.FindAll(actor => actor != null);
             navalActorEntryJsons = navalActors.Select(ship => new NavalActorEntryJson(ship)).ToList();
         }
     }

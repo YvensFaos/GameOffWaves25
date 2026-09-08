@@ -12,10 +12,22 @@ namespace Core.Recorder
 {
     public enum WavesRecordEntryType
     {
-        Movement, Attack, Damage, Reasoning, Death, Goal, GameState,
-        EndGame, Information, Command, InvalidAttempt, Input, Turn
+        Movement,
+        Attack,
+        Damage,
+        Reasoning,
+        Death,
+        Goal,
+        GameState,
+        ScenarioState,
+        EndGame,
+        Information,
+        Command,
+        InvalidAttempt,
+        Input,
+        Turn
     }
-    
+
     public static class WavesRecordEntryTypeExtensions
     {
         public static string WavesRecordEntryTypeToString(WavesRecordEntryType type)
@@ -35,6 +47,7 @@ namespace Core.Recorder
                 WavesRecordEntryType.Command => "CMMD",
                 WavesRecordEntryType.Turn => "TURN",
                 WavesRecordEntryType.GameState => "GSTT",
+                WavesRecordEntryType.ScenarioState => "SCNR",
                 _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
             };
         }
