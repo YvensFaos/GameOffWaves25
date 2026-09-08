@@ -17,6 +17,12 @@ namespace Core.Recorder
         [SerializeField] public int x;
         [SerializeField] public int y;
 
+        public SimpleVector2Int(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+        
         public SimpleVector2Int(Vector2Int vector)
         {
             x = vector.x;

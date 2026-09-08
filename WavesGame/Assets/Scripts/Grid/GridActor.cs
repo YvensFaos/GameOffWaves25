@@ -16,16 +16,16 @@ namespace Grid
 {
     public class GridActor : MonoBehaviour
     {
-        [Header("Data")] [SerializeField] private int maxHealth;
-        [SerializeField, ReadOnly] private int currentHealth;
+        [Header("Data")] [SerializeField] protected int maxHealth;
+        [SerializeField, ReadOnly] protected int currentHealth;
 
         [Header("References")] [SerializeField, ReadOnly]
         protected GridUnit currentUnit;
 
         [SerializeField] private SpriteRenderer targetRenderer;
-        [SerializeField] private bool destructible = true;
-        [SerializeField] private bool blockGridUnit;
-        [SerializeField] private bool hasStepEffect;
+        [SerializeField] protected bool destructible = true;
+        [SerializeField] protected bool blockGridUnit;
+        [SerializeField] protected bool hasStepEffect;
 
         protected bool markedForDeath;
 

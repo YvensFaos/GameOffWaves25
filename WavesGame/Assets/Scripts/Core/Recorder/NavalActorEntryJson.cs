@@ -42,7 +42,8 @@ namespace Core.Recorder
             currentHealth = navalActor.GetCurrentHealth();
             var shipType = navalActor.GetType();
             shipPrefabType = shipType.Name;
-            position = new SimpleVector2Int(navalActor.GetUnit().Index());
+            var gridUnit = navalActor.GetUnit();
+            position = gridUnit != null ? new SimpleVector2Int(gridUnit.Index()) : new SimpleVector2Int(-1, -1);
 
             faction = "Missing Type";
             shipData = "No Ship Data";

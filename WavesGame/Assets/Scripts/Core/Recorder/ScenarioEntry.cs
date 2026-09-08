@@ -31,7 +31,7 @@ namespace Core.Recorder
 
     public class ScenarioEntry : WavesEntry
     {
-        private List<string> scenarioOverview;
+        private List<string> _scenarioOverview;
 
         public ScenarioEntry(GridManager gridManager) : base(WavesRecordEntryType.ScenarioState)
         {
@@ -42,12 +42,12 @@ namespace Core.Recorder
         {
             var grid = gridManager.Grid();
             var dimensions = gridManager.GetDimensions();
-            scenarioOverview = new List<string>();
+            _scenarioOverview = new List<string>();
 
             for (var index = 0; index < grid.Count;)
             {
                 var row = "";
-                for (var j = 0; j < dimensions.y && index < grid.Count; j++)
+                for (var j = 0; j < dimensions.x && index < grid.Count; j++)
                 {
                     var gridUnit = grid[index++];
                     if (gridUnit.IsEmpty())
@@ -80,11 +80,14 @@ namespace Core.Recorder
                                 row += "@";
                                 break;
                             case NavalActor:
-                                row += "N";
+                                row += "%";
                                 break;
                             case WaveActor waveActor:
                                 var waveDirection = waveActor.GetWaveDirection;
                                 row += GridMoveTypeExtensions.GridMovementSimplifiedSymbol(waveDirection);
+                                break;
+                            case ObstacleActor obstacleActor:
+                                row += "&";
                                 break;
                             default:
                                 row += "?";
@@ -93,7 +96,7 @@ namespace Core.Recorder
                     }
                 }
 
-                scenarioOverview.Add(row);
+                _scenarioOverview.Add(row);
             }
 
             return;
@@ -112,7 +115,7 @@ namespace Core.Recorder
 
         protected override string ToJson()
         {
-            return JsonUtility.ToJson(new ScenarioEntryJson(scenarioOverview,
+            return JsonUtility.ToJson(new ScenarioEntryJson(_scenarioOverview,
                 WavesRecordEntryTypeExtensions.WavesRecordEntryTypeToString(WavesRecordEntryType.ScenarioState), turn,
                 timeStamp));
         }

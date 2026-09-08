@@ -61,12 +61,6 @@ namespace Grid
             _dimensions = tilemapInfo.GetDimensions();
             var bounds = tilemapInfo.GetTileMapBounds();
             _grid = new GridUnit[_dimensions.x, _dimensions.y];
-
-            if (gridUnits.Count != _dimensions.x * _dimensions.y)
-            {
-                gridUnits = FindObjectsByType<GridUnit>().ToList();
-            }
-            
             gridUnits.ForEach(unit =>
             {
                 var index = GetUnitPosition(unit, bounds);
