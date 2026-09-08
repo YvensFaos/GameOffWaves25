@@ -44,20 +44,20 @@ namespace Core.Recorder
             var dimensions = gridManager.GetDimensions();
             _scenarioOverview = new List<string>();
 
-            for (var index = 0; index < grid.Count;)
+            for (var index = grid.Count - 1; index > -1;)
             {
                 var row = "";
                 for (var j = 0; j < dimensions.x && index < grid.Count; j++)
                 {
-                    var gridUnit = grid[index++];
+                    var gridUnit = grid[index--];
                     if (gridUnit.IsEmpty())
                     {
-                        row += gridUnit.Type() switch
+                        row = gridUnit.Type() switch
                         {
                             GridUnitType.Moveable => ".",
                             GridUnitType.Blocked => "#",
                             _ => "!"
-                        };
+                        } + row;
                     }
                     else
                     {
@@ -77,20 +77,20 @@ namespace Core.Recorder
                                 AddFactionLetterToRowList(ref row, navalShip);
                                 break;
                             case NavalTarget:
-                                row += "@";
+                                row = "@" + row;
                                 break;
                             case NavalActor:
-                                row += "%";
+                                row = "%" + row;
                                 break;
                             case WaveActor waveActor:
                                 var waveDirection = waveActor.GetWaveDirection;
-                                row += GridMoveTypeExtensions.GridMovementSimplifiedSymbol(waveDirection);
+                                row = GridMoveTypeExtensions.GridMovementSimplifiedSymbol(waveDirection) + row;
                                 break;
                             case ObstacleActor obstacleActor:
-                                row += "&";
+                                row = "&" + row;
                                 break;
                             default:
-                                row += "?";
+                                row = "?" + row;
                                 break;
                         }
                     }
@@ -104,7 +104,7 @@ namespace Core.Recorder
             void AddFactionLetterToRowList(ref string row, NavalShip navalShip)
             {
                 //Gets the first letter of the faction
-                row += $"{navalShip.GetFaction().ToString()[0]}";
+                row = $"{navalShip.GetFaction().ToString()[0]}{row}";
             }
         }
 
