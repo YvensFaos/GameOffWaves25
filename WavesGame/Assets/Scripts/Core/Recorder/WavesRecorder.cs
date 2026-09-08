@@ -20,10 +20,10 @@ namespace Core.Recorder
         [SerializeField] private GameRecorder recorder;
 
         public void LogGameStart(string map, int randomSeed, int maxTurns, List<NavalActor> ships,
-            List<WaveActor> waveActors, string recordingIdentifier)
+            List<WaveActor> waveActors, List<ObstacleActor> obstacleActors, string recordingIdentifier)
         {
             StartRecording(recordingIdentifier);
-            RecordNewEntry(new WavesGameInfoEntry(map, randomSeed, maxTurns, ships, waveActors));
+            RecordNewEntry(new WavesGameInfoEntry(map, randomSeed, maxTurns, ships, waveActors, obstacleActors));
         }
 
         private void StartRecording(string recordingIdentifier)

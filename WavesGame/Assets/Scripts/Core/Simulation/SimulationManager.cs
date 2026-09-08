@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 Yvens R Serpa [https://github.com/YvensFaos/]
+ * Copyright (c) 2026 Yvens R Serpa [https://github.com/YvensFaos/]
  *
  * This work is licensed under the Creative Commons Attribution 4.0 International License.
  * To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0/
@@ -168,12 +168,13 @@ namespace Core.Simulation
                     FindObjectsByType<WaveActor>(FindObjectsInactive.Exclude)
                         .ToList();
 
+                var obstacleActors = FindObjectsByType<ObstacleActor>(FindObjectsInactive.Exclude).ToList();
+
                 var recordingIdentifier =
                     $"{simulation.BattleGroundScene}-{simulationController.GetLevelMessageAndTime()}-iteration[{iterationNumber}]";
                 DebugUtils.DebugLogMsg($"Starting recording...", DebugUtils.DebugType.System);
                 _wavesRecorder.LogGameStart(simulation.BattleGroundScene, simulationSeed, maxTurns, navalActors,
-                    waveActors,
-                    recordingIdentifier);
+                    waveActors, obstacleActors, recordingIdentifier);
             }
 
             DebugUtils.DebugLogMsg($"Starting simulation...", DebugUtils.DebugType.System);
