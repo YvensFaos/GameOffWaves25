@@ -93,6 +93,10 @@ namespace Core.Simulation
             {
                 turnText.text = $"Turn = {turnManager.GetTurnNumber()}";
             }
+            
+            //TODO read the scenario
+            var gridManager = GridManager.GetSingleton();
+            
 
             //Start level
             var enumerator = levelActionableActors.GetEnumerator();
